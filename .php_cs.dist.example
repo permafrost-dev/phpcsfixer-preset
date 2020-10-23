@@ -1,0 +1,8 @@
+<?php
+
+use Permafrost\PhpCsFixerRules\Finder\LaravelProjectFinder;
+use Permafrost\PhpCsFixerRules\SharedConfig;
+
+$finder = LaravelProjectFinder::create(__DIR__);
+
+return SharedConfig::create($finder);
