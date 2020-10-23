@@ -21,9 +21,9 @@ class LaravelPackageFinder extends BaseFinder
                 "$baseDir/resources",
             ])
             ->in(static::onlyExistingPaths([
+                "$baseDir/config",
                 "$baseDir/src",
                 "$baseDir/tests",
-                "$baseDir/config",
             ]));
     }
 }
