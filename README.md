@@ -4,9 +4,9 @@
 <span style="font-size:2.3rem">phpcsfixer-preset</span>
 </p>
 
-<center>
-![version](https://img.shields.io/packagist/v/permafrost-dev/phpcsfixer-preset  "version") ![license](https://img.shields.io/packagist/l/permafrost-dev/phpcsfixer-preset  "license") ![downloads](https://img.shields.io/packagist/dt/permafrost-dev/phpcsfixer-preset  "downloads")
-</center>
+<p align="center">
+<img src="https://img.shields.io/packagist/v/permafrost-dev/phpcsfixer-preset" alt="version"/> <img src="https://img.shields.io/packagist/l/permafrost-dev/phpcsfixer-preset" alt="license"/> <img src="https://img.shields.io/packagist/dt/permafrost-dev/phpcsfixer-preset" alt="downloads"/>
+</p>
 
 <br>
 
