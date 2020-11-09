@@ -44,6 +44,21 @@ To see which files will be changed, run:
 
 ---
 
+### Quick Setup
+
+To quickly set up a project, run `vendor/bin/pf-create-cs-config <type>` where type is one of:
+- project
+- package
+- laravel
+- laravel:project
+- laravel:package
+
+_Note that `laravel` is an alias for `laravel:project`.
+
+This will generate the appropriate `.php_cs.dist` file in your project directory,
+
+---
+
 ## Finder Presets:
 
 #### `BasicProjectFinder`
