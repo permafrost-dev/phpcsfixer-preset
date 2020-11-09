@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Permafrost\Tests\Unit;
 
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use PhpCsFixer\Finder;
