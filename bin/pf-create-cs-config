@@ -1,55 +1,15 @@
 #!/usr/bin/env php
-<?php declare(strict_types=1);
-/*
- * This file is part of PHPUnit.
- *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+<?php
 
-use Composer\Factory;
-use Composer\Json\JsonFile;
-use Composer\Package\BasePackage;
-use Composer\Package\Package;
-use Composer\Package\Version\VersionParser;
-use Composer\Package\Version\VersionSelector;
-use Composer\Repository\CompositeRepository;
-use Composer\Repository\PlatformRepository;
-use Composer\Repository\RepositoryFactory;
-use Composer\Repository\RepositorySet;
-use Composer\Util\ProcessExecutor;
-use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ExecutableFinder;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Console\SingleCommandApplication;
 
-class PermafrostCreateCsConfigCommand extends BaseCommand
+class PermafrostCreateCsConfigCommand extends Command
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        $this
-            ->setName('pf-csconfig')
-            ->setDescription('Creates a basic .php_cs.dist file in project directory.')
-            ->setDefinition([
-                new InputOption('type', null, InputOption::VALUE_OPTIONAL, 'Type of package (e.g. library, project, metapackage, composer-plugin)'),
-            ])
-            ->setHelp(
-                <<<EOT
-The <info>init</info> command creates a basic composer.json file
-in the current directory.
-<info>php composer.phar init</info>
-Read more at https://getcomposer.org/doc/03-cli.md#init
-EOT
-            );
-    }
-
     protected function validTypes(): array
     {
         return [
@@ -65,7 +25,7 @@ EOT
     {
         $output->writeln("Error: <info>$message</info>");
 
-        return false;
+        return Command::FAILURE;
     }
 
     protected function targetConfigFilename(): string
@@ -78,28 +38,32 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output)
     {
-
-        if (file_exists($this->targetConfigFilename())) {
+        if ($this->targetFileExists()) {
             return $this->handleError($output, 'An existing ".php_cs.dist" file already exists.  Exiting.');
         }
 
-        $allowList = ['type'];
-        $options = array_filter(array_intersect_key($input->getOptions(), array_flip($allowList)));
+        $type = strtolower($input->getFirstArgument());
 
-        $type = strtolower($input->getOption('type'));
-
-        if (!in_aray($type, $this->validTypes())) {
-            return $this->handleError('Invalid type.  Specify one of: ' . implode(', ', $this->validTypes()) . '.');
+        if (!in_array($type, $this->validTypes())) {
+            return $this->handleError($output, 'Invalid type.  Specify one of: ' . implode(', ', $this->validTypes()) . '.');
         }
 
-        $finder = $this->determineCorrectFinder($type);
-        $code = $this->generatePhpCsConfig($finder);
+        $code = $this->generatePhpCsConfig(
+            $this->determineCorrectFinder($type)
+        );
 
         file_put_contents($this->targetConfigFilename(), $code);
 
-        $output->writeln("<info>Successfully wrote configuration file.</info>");
+        $output->writeln('<info>Successfully wrote configuration file.</info>');
+
+        return Command::SUCCESS;
+    }
+
+    protected function targetFileExists()
+    {
+        return file_exists($this->targetConfigFilename());
     }
 
     /**
@@ -134,7 +98,7 @@ EOT
 use Permafrost\\PhpCsFixerRules\\Finder\\$finderName;
 use Permafrost\\PhpCsFixerRules\\SharedConfig;
 
-\$finder = LaravelProjectFinder::create(__DIR__);
+\$finder = $finderName::create(__DIR__);
 
 return SharedConfig::create(\$finder);
 CODE;
@@ -142,5 +106,18 @@ CODE;
         return trim($code);
     }
 
-
 }
+
+function executePermafrostCreateCsFixerConfigScript()
+{
+    (new SingleCommandApplication())
+        ->setName('php-cs-fixer configuration generator') // Optional
+        ->addArgument('type', InputArgument::OPTIONAL, 'The type of finder to use.')
+        ->setCode(function(ArgvInput $input, OutputInterface $output) {
+            $command = new PermafrostCreateCsConfigCommand();
+            return $command->execute($input, $output);
+        })
+        ->run();
+}
+
+executePermafrostCreateCsFixerConfigScript();

@@ -4,7 +4,8 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3",
+        "symfony/console": "^5.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",
@@ -25,5 +26,6 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true
-    }
+    },
+    "bin": "bin/pf-create-cs-config"
 }
