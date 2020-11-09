@@ -33,7 +33,7 @@ jobs:
             key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
       -   name: Install dependencies
-          run: composer install --prefer-dist --no-interaction --no-suggest --optimize-autoloader
+          run: composer install --prefer-dist --no-interaction --optimize-autoloader
 
       -   name: Execute tests
           run: vendor/bin/phpunit --testdox
