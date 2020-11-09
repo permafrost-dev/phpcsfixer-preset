@@ -4,6 +4,9 @@
     "type": "library",
     "license": "MIT",
     "require": {
+        "php": "^7.2"
+    },
+    "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",
         "phpunit/phpunit": "^9.3"
     },
@@ -11,5 +14,16 @@
         "psr-4": {
             "Permafrost\\PhpCsFixerRules\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Permafrost\\Tests\\Unit\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }
