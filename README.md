@@ -1,4 +1,10 @@
+<p align="center">
+<img src="https://static.permafrost.dev/images/permafrost-logo-02.png" alt="Permafrost Dev" height="150" style="block">
+<br><br>
+</p>
+
 # phpcsfixer-preset
+<br>
 
 ## Finder Presets:
 
