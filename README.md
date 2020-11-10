@@ -25,6 +25,8 @@ This package provides an opinionated, shared `php-cs-fixer` configuration as wel
 ```php
 <?php
 
+require_once(__DIR__.'/vendor/autoload.php');
+
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\SharedConfig;
 
