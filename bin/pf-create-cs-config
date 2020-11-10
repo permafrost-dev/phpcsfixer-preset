@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+require_once(__DIR__.'/../../../autoload.php');
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
