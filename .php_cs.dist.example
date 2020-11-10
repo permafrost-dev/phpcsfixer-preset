@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__.'/vendor/autoload.php');
 
-use Permafrost\PhpCsFixerRules\Finder\LaravelProjectFinder;
+use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\SharedConfig;
 
 $finder = LaravelProjectFinder::create(__DIR__);
