@@ -99,11 +99,12 @@ class PermafrostCreateCsConfigCommand extends Command
 require_once(__DIR__.'/vendor/autoload.php');
 
 use Permafrost\\PhpCsFixerRules\\Finder\\$finderName;
+use Permafrost\\PhpCsFixerRules\\Rulesets\\DefaultRuleset;
 use Permafrost\\PhpCsFixerRules\\SharedConfig;
 
 \$finder = $finderName::create(__DIR__);
 
-return SharedConfig::create(\$finder);
+return SharedConfig::create(\$finder, new DefaultRuleset());
 CODE;
 
         return trim($code);

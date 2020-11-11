@@ -2,6 +2,7 @@
 
 namespace Permafrost\Tests\Unit;
 
+use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
 use Permafrost\PhpCsFixerRules\SharedConfig;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
@@ -25,8 +26,9 @@ class SharedConfigTest extends TestCase
      */
     public function it_merges_rules(): void
     {
-        $rules = SharedConfig::loadAndMergeRules(['__MERGED_RULE__' => 12]);
-        $actualRules = require __DIR__ . '/../src/rules.php';
+        $ruleset = new DefaultRuleset();
+        $rules = SharedConfig::loadAndMergeRules($ruleset, ['__MERGED_RULE__' => 12]);
+        $actualRules = $ruleset->rules();
 
         $this->assertIsArray($rules);
         $this->assertCount(count($actualRules) + 1, $rules);
@@ -39,8 +41,9 @@ class SharedConfigTest extends TestCase
      */
     public function it_loads_rules(): void
     {
-        $rules = SharedConfig::loadAndMergeRules([]);
-        $actualRules = require __DIR__ . '/../src/rules.php';
+        $ruleset = new DefaultRuleset();
+        $rules = SharedConfig::loadAndMergeRules($ruleset, []);
+        $actualRules = $ruleset->rules();
 
         $this->assertIsArray($rules);
         $this->assertEquals($actualRules, $rules);

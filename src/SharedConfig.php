@@ -2,28 +2,35 @@
 
 namespace Permafrost\PhpCsFixerRules;
 
+use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
+use Permafrost\PhpCsFixerRules\Rulesets\RuleSet;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 class SharedConfig
 {
-    public static function loadAndMergeRules(array $rules): array
+    public static function loadAndMergeRules(Ruleset $ruleset, array $rules): array
     {
-        return array_merge(require __DIR__ . '/rules.php', $rules);
+        return array_merge($ruleset->rules(), $rules);
     }
 
     /**
      * @param \PhpCsFixer\Finder $finder
+     * @param \Permafrost\PhpCsFixerRules\Rulesets\RuleSet|null $ruleset
      * @param array $rules
      * @param false $allowRiskyRules
      *
      * @return \PhpCsFixer\Config
      */
-    public static function create(Finder $finder, array $rules = [], $allowRiskyRules = false): Config
+    public static function create(Finder $finder, ?Ruleset $ruleset = null, array $rules = [], $allowRiskyRules = false): Config
     {
+        if ($ruleset === null) {
+            $ruleset = new DefaultRuleset();
+        }
+
         return Config::create()
             ->setFinder($finder)
             ->setRiskyAllowed($allowRiskyRules)
-            ->setRules(static::loadAndMergeRules($rules));
+            ->setRules(static::loadAndMergeRules($ruleset, $rules));
     }
 }
