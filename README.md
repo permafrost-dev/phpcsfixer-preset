@@ -28,11 +28,12 @@ This package provides an opinionated, shared `php-cs-fixer` configuration as wel
 require_once(__DIR__.'/vendor/autoload.php');
 
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
+use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
 use Permafrost\PhpCsFixerRules\SharedConfig;
 
 $finder = LaravelProjectFinder::create(__DIR__);
 
-return SharedConfig::create($finder);
+return SharedConfig::create($finder, new DefaultRuleset());
 ```
 ---
 
@@ -91,6 +92,6 @@ This will generate the appropriate `.php_cs.dist` file in your project directory
 ## Usage
 Select a Finder preset or create an instance of `\PhpCsFixer\Finder` and return `SharedConfig::create($finder)` from the `.php_cs.dist` file.
 
-## Adding Rules
-Add or remove the desired rules to the `src/rules.php` file.
+## Updating Rules
+Modify or extend the `rules()` method in the `Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset` class.
 
