@@ -1,14 +1,20 @@
 #!/usr/bin/env php
 <?php
 
-require_once(__DIR__.'/../../../autoload.php');
+if (file_exists(__DIR__.'/../../../autoload.php')) {
+    require_once(__DIR__.'/../../../autoload.php');
+} elseif (file_exists(__DIR__.'/../vendor/autoload.php')) {
+    require_once(__DIR__.'/../vendor/autoload.php');
+}
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Finder\Finder;
 
 class PermafrostCreateCsConfigCommand extends Command
 {
@@ -21,6 +27,22 @@ class PermafrostCreateCsConfigCommand extends Command
             'package',
             'project',
         ];
+    }
+
+    protected function validRulesets(): array
+    {
+        $result = [];
+        $finder = Finder::create();
+        $files = $finder->in(__DIR__.'/../src/Rulesets')
+            ->name('*Ruleset.php')
+            ->files()
+            ->getIterator();
+
+        foreach($files as $file) {
+            $result[] = snakeCase(preg_replace('~Ruleset$~', '', $file->getBasename('.php')));
+        }
+
+        return $result;
     }
 
     protected function handleError($output, string $message)
@@ -47,13 +69,23 @@ class PermafrostCreateCsConfigCommand extends Command
         }
 
         $type = strtolower($input->getFirstArgument());
+        $ruleset = 'default';
+
+        if ($input->hasOption('ruleset')) {
+            $ruleset = $input->getOption('ruleset');
+        }
+
+        if (!in_array($ruleset, $this->validRulesets(), true)) {
+            return $this->handleError($output, 'Ruleset not found.  Valid rulesets: ' . implode(', ', $this->validRulesets()) . '.');
+        }
 
         if (!in_array($type, $this->validTypes())) {
             return $this->handleError($output, 'Invalid type.  Specify one of: ' . implode(', ', $this->validTypes()) . '.');
         }
 
         $code = $this->generatePhpCsConfig(
-            $this->determineCorrectFinder($type)
+            $this->determineCorrectFinder($type),
+            studlyCase($ruleset) . 'Ruleset'
         );
 
         file_put_contents($this->targetConfigFilename(), $code);
@@ -92,19 +124,20 @@ class PermafrostCreateCsConfigCommand extends Command
         }
     }
 
-    protected function generatePhpCsConfig(string $finderName)
+    protected function generatePhpCsConfig(string $finderName, string $rulesetClass)
     {
         $code = <<<CODE
 <?php
 require_once(__DIR__.'/vendor/autoload.php');
 
 use Permafrost\\PhpCsFixerRules\\Finder\\$finderName;
-use Permafrost\\PhpCsFixerRules\\Rulesets\\DefaultRuleset;
+use Permafrost\\PhpCsFixerRules\\Rulesets\\$rulesetClass;
 use Permafrost\\PhpCsFixerRules\\SharedConfig;
 
-\$finder = $finderName::create(__DIR__);
+// optional: chain additiional custom Finder options:
+\$finder = $finderName::create(__DIR__); 
 
-return SharedConfig::create(\$finder, new DefaultRuleset());
+return SharedConfig::create(\$finder, new $rulesetClass());
 CODE;
 
         return trim($code);
@@ -112,11 +145,39 @@ CODE;
 
 }
 
+/**
+ * Convert a string to snake case.
+ *
+ * @param string $value
+ * @param string $delimiter Default to underscore
+ *
+ * @return string
+ */
+function snakeCase(string $value, ?string $delimiter = null): string
+{
+    if (!\ctype_lower($value)) {
+        $value = (string) \preg_replace('/\s+/u', '', \ucwords($value));
+        $value = (string) \mb_strtolower(\preg_replace(
+            '/(.)(?=[A-Z])/u',
+            '$1' . ($delimiter ?? '_'),
+            $value
+        ));
+    }
+
+    return $value;
+}
+
+function studlyCase(string $value): string
+{
+    return ucwords(preg_replace(['~[_\-]~', ' '], [' ', ''], $value));
+}
+
 function executePermafrostCreateCsFixerConfigScript()
 {
     (new SingleCommandApplication())
         ->setName('php-cs-fixer configuration generator') // Optional
-        ->addArgument('type', InputArgument::OPTIONAL, 'The type of finder to use.')
+        ->addArgument('type', InputArgument::OPTIONAL, 'The type of finder to use.', 'laravel')
+        ->addOption('ruleset', null, InputOption::VALUE_OPTIONAL,  'The ruleset to use', 'default')
         ->setCode(function(ArgvInput $input, OutputInterface $output) {
             $command = new PermafrostCreateCsConfigCommand();
             return $command->execute($input, $output);
