@@ -97,6 +97,9 @@ This will generate the appropriate `.php_cs.dist` file in your project directory
 #### `LaravelShiftRuleset`
 - The ruleset used by [Laravel Shift](https://laravelshift.com).
 
+#### `SpatieRuleset`
+- The ruleset used by [Spatie](https://github.com/spatie).
+
 ## Usage
 Select a Finder preset or create an instance of `\PhpCsFixer\Finder` and return `SharedConfig::create($finder)` from the `.php_cs.dist` file.
 
