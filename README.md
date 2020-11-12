@@ -49,14 +49,19 @@ To see which files will be changed, run:
 
 ### Quick Setup
 
-To quickly set up a project, run `vendor/bin/pf-create-cs-config <type>` where type is one of:
-- project
-- package
-- laravel
-- laravel:project
-- laravel:package
+To quickly set up a project, run `vendor/bin/pf-create-cs-config <type> [--ruleset=<ruleset>]` where type is one of:
 
-_Note that `laravel` is an alias for `laravel:project`.
+ - `project`
+ - `package`
+ - `laravel` _(alias for laravel:project)_
+ - `laravel:project`
+ - `laravel:package`
+
+The `--ruleset` flag is optional, and must be the snake case name of one of the existing rulesets:
+
+ - `default`
+ - `laravel_shift`
+ - `spatie`
 
 This will generate the appropriate `.php_cs.dist` file in your project directory,
 
