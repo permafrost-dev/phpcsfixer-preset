@@ -89,9 +89,19 @@ This will generate the appropriate `.php_cs.dist` file in your project directory
 - only includes directories that exist
 - includes php files in `src/`, `tests/`
 
+## Rulesets
+
+#### `DefaultRuleset`
+- The default, opinionated ruleset provided by this package.
+
+#### `LaravelShiftRuleset`
+- The ruleset used by [Laravel Shift](https://laravelshift.com).
+
 ## Usage
 Select a Finder preset or create an instance of `\PhpCsFixer\Finder` and return `SharedConfig::create($finder)` from the `.php_cs.dist` file.
 
 ## Updating Rules
 Modify or extend the `rules()` method in the `Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset` class.
 
+## Creating Rulesets
+Implement the `Permafrost\PhpCsFixerRules\Rulesets\Ruleset` interface, returning your rules from the `rules()` method.
