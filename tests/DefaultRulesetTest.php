@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Permafrost\Tests\Unit;
 
 use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;

@@ -4,14 +4,13 @@ namespace Permafrost\PhpCsFixerRules\Rulesets;
 
 class LaravelShiftRuleset implements RuleSet
 {
-
     public function name(): string
     {
         return 'laravel_shift';
     }
 
     /**
-     * Rules taken from https://gist.github.com/laravel-shift/cab527923ed2a109dda047b97d53c200
+     * Rules taken from https://gist.github.com/laravel-shift/cab527923ed2a109dda047b97d53c200.
      *
      * @return array
      */
@@ -21,21 +20,21 @@ class LaravelShiftRuleset implements RuleSet
             'array_syntax' => ['syntax' => 'short'],
             'binary_operator_spaces' => [
                 'default' => 'single_space',
-                'operators' => ['=>' => null]
+                'operators' => ['=>' => null],
             ],
             'blank_line_after_namespace' => true,
             'blank_line_after_opening_tag' => true,
             'blank_line_before_statement' => [
-                'statements' => ['return']
+                'statements' => ['return'],
             ],
             'braces' => true,
             'cast_spaces' => true,
             'class_attributes_separation' => [
-                'elements' => ['method']
+                'elements' => ['method'],
             ],
             'class_definition' => true,
             'concat_space' => [
-                'spacing' => 'none'
+                'spacing' => 'none',
             ],
             'declare_equal_normalize' => true,
             'elseif' => true,
@@ -65,7 +64,7 @@ class LaravelShiftRuleset implements RuleSet
                     'throw',
                     'use',
                     'use_trait',
-                ]
+                ],
             ],
             'no_blank_lines_after_class_opening' => true,
             'no_blank_lines_after_phpdoc' => true,
@@ -75,11 +74,11 @@ class LaravelShiftRuleset implements RuleSet
             'no_leading_import_slash' => true,
             'no_leading_namespace_whitespace' => true,
             'no_mixed_echo_print' => [
-                'use' => 'echo'
+                'use' => 'echo',
             ],
             'no_multiline_whitespace_around_double_arrow' => true,
             'multiline_whitespace_before_semicolons' => [
-                'strategy' => 'no_multi_line'
+                'strategy' => 'no_multi_line',
             ],
             'no_short_bool_cast' => true,
             'no_singleline_whitespace_before_semicolons' => true,
@@ -121,7 +120,7 @@ class LaravelShiftRuleset implements RuleSet
             'single_import_per_statement' => true,
             'single_line_after_imports' => true,
             'single_line_comment_style' => [
-                'comment_types' => ['hash']
+                'comment_types' => ['hash'],
             ],
             'single_quote' => true,
             'space_after_semicolon' => true,
@@ -133,7 +132,7 @@ class LaravelShiftRuleset implements RuleSet
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
             'visibility_required' => [
-                'elements' => ['method', 'property']
+                'elements' => ['method', 'property'],
             ],
             'whitespace_after_comma_in_array' => true,
         ];

@@ -10,7 +10,7 @@ class SpatieRuleset implements RuleSet
     }
 
     /**
-     * Used with permission; original file https://github.com/spatie/spatie.be/blob/master/.php_cs
+     * Used with permission; original file https://github.com/spatie/spatie.be/blob/master/.php_cs.
      *
      * @return array
      */

@@ -160,5 +160,4 @@ CODE;
 
         return $this->handleFinished();
     }
-
 }

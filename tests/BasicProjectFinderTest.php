@@ -2,9 +2,7 @@
 
 namespace Permafrost\Tests\Unit;
 
-use Permafrost\PhpCsFixerRules\SharedConfig;
 use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
-use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PHPUnit\Framework\TestCase;
 

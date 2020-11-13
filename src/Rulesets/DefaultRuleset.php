@@ -2,11 +2,8 @@
 
 namespace Permafrost\PhpCsFixerRules\Rulesets;
 
-use Permafrost\PhpCsFixerRules\Rulesets\RuleSet;
-
 class DefaultRuleset implements RuleSet
 {
-
     public function name(): string
     {
         return 'default';
