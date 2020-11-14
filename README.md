@@ -52,7 +52,7 @@ To see which files will change, run:
 
 ### Quick Setup
 
-To generate a configuration file for a project, run `vendor/bin/pf-create-cs-config <type> [--ruleset=<ruleset>]`. 
+To generate a configuration file for a project, run `vendor/bin/pf-create-cs-config <type> [--ruleset=<ruleset>]`.
 
 The `type` parameter is mandatory.
 Possible values for `type`:
@@ -68,6 +68,7 @@ Possible values for `--ruleset`:
 
 - `default`
 - `laravel_shift`
+- `php_unit`
 - `spatie`
 
 This will generate the appropriate `.php_cs.dist` file in your project directory,
@@ -111,6 +112,10 @@ This will generate the appropriate `.php_cs.dist` file in your project directory
 #### `LaravelShiftRuleset`
 
 - The ruleset used by [Laravel Shift](https://laravelshift.com).
+
+#### `PhpUnitRuleset`
+
+- The ruleset used by [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 
 #### `SpatieRuleset`
 
