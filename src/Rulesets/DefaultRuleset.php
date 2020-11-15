@@ -18,6 +18,9 @@ class DefaultRuleset implements RuleSet
             'array_syntax' => [
                 'syntax' => 'short',
             ],
+            'blank_line_before_statement' => [
+                'statements' => ['break', 'continue', 'declare', 'return', 'throw', 'try'],
+            ],
             'blank_line_after_namespace' => true,
             'binary_operator_spaces' => [
                 'operators' => ['=>' => 'single_space'],
@@ -50,6 +53,7 @@ class DefaultRuleset implements RuleSet
             'no_superfluous_phpdoc_tags' => false,
             'no_trailing_whitespace' => true,
             'no_trailing_whitespace_in_comment' => true,
+            'no_unused_imports' => true,
             'not_operator_with_successor_space' => false,
             'ordered_imports' => [
                 'sortAlgorithm' => 'alpha',
