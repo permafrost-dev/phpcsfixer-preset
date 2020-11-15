@@ -30,7 +30,7 @@ class SharedConfig
 
         return Config::create()
             ->setFinder($finder)
-            ->setRiskyAllowed($allowRiskyRules)
+            ->setRiskyAllowed($allowRiskyRules || $ruleset->allowRisky())
             ->setRules(static::loadAndMergeRules($ruleset, $rules));
     }
 }

@@ -4,6 +4,11 @@ namespace Permafrost\PhpCsFixerRules\Rulesets;
 
 class LaravelShiftRuleset implements RuleSet
 {
+    public function allowRisky(): bool
+    {
+        return true;
+    }
+
     public function name(): string
     {
         return 'laravel_shift';

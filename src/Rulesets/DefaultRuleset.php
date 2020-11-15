@@ -4,6 +4,11 @@ namespace Permafrost\PhpCsFixerRules\Rulesets;
 
 class DefaultRuleset implements RuleSet
 {
+    public function allowRisky(): bool
+    {
+        return false;
+    }
+
     public function name(): string
     {
         return 'default';
