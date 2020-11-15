@@ -15,7 +15,9 @@ class Str
     public static function snake(string $value, ?string $delimiter = null): string
     {
         if (!\ctype_lower($value)) {
+            $value = str_replace(['-', '_'], ' ', $value);
             $value = (string)\preg_replace('/\s+/u', '', \ucwords($value));
+
             $value = (string)\mb_strtolower(\preg_replace(
                 '/(.)(?=[A-Z])/u',
                 '$1' . ($delimiter ?? '_'),
@@ -35,6 +37,8 @@ class Str
      */
     public static function studly(string $value): string
     {
-        return ucwords(preg_replace(['~[_\-]~', '~\s+~'], [' ', ''], $value));
+        $result = ucwords(str_replace(['_', '-'], ' ', $value));
+
+        return str_replace(' ', '', $result);
     }
 }
