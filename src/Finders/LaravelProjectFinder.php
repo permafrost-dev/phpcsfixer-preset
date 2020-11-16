@@ -31,4 +31,12 @@ class LaravelProjectFinder extends BaseFinder
                 "$baseDir/tests",
             ]));
     }
+
+    public static function configTypes(): array
+    {
+        return [
+            'laravel',
+            'laravel:project',
+        ];
+    }
 }

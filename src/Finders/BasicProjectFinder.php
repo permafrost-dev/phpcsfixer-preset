@@ -23,4 +23,12 @@ class BasicProjectFinder extends BaseFinder
                 "$baseDir/vendor",
             ]);
     }
+
+    public static function configTypes(): array
+    {
+        return [
+            'project',
+            'default',
+        ];
+    }
 }

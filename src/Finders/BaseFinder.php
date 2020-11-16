@@ -12,4 +12,6 @@ abstract class BaseFinder
     }
 
     abstract public static function create(string $baseDir);
+
+    abstract public static function configTypes(): array;
 }

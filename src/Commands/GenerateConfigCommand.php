@@ -2,6 +2,11 @@
 
 namespace Permafrost\PhpCsFixerRules\Commands;
 
+use Permafrost\PhpCsFixerRules\Commands\Traits\HasMappedFinderClasses;
+use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
+use Permafrost\PhpCsFixerRules\Finders\ComposerPackageFinder;
+use Permafrost\PhpCsFixerRules\Finders\LaravelPackageFinder;
+use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,11 +15,30 @@ use Symfony\Component\Finder\Finder;
 
 class GenerateConfigCommand extends Command
 {
+    use HasMappedFinderClasses;
+
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     protected $output;
 
     /** @var \Symfony\Component\Console\Input\InputInterface */
     protected $input;
+
+    public $filename = '.php_cs.dist.1';
+
+    /**
+     * Returns an array of all valid Finder classnames.
+     *
+     * @return string[]
+     */
+    protected function finders(): array
+    {
+        return [
+            BasicProjectFinder::class,
+            ComposerPackageFinder::class,
+            LaravelPackageFinder::class,
+            LaravelProjectFinder::class,
+        ];
+    }
 
     protected function getRulesetName()
     {
@@ -32,7 +56,7 @@ class GenerateConfigCommand extends Command
 
     protected function getOutputFilename(): string
     {
-        return getcwd() . '/.php_cs.dist';
+        return getcwd() . DIRECTORY_SEPARATOR . basename($this->filename);
     }
 
     protected function handleError(string $message): int
@@ -51,8 +75,10 @@ class GenerateConfigCommand extends Command
 
     protected function validateUserInput($type, $ruleset)
     {
-        if (!in_array($ruleset, $this->validRulesets(), true)) {
-            return $this->handleError('Ruleset not found.  Valid rulesets: ' . implode(', ', $this->validRulesets()) . '.');
+        $validRulesets = $this->validRulesets();
+
+        if (!in_array($ruleset, $validRulesets, true)) {
+            return $this->handleError('Ruleset not found.  Valid rulesets: ' . implode(', ', $validRulesets) . '.');
         }
 
         if (!in_array($type, $this->validTypes(), true)) {
@@ -78,13 +104,7 @@ class GenerateConfigCommand extends Command
 
     protected function validTypes(): array
     {
-        return [
-            'laravel',
-            'laravel:package',
-            'laravel:project',
-            'package',
-            'project',
-        ];
+        return array_keys($this->finderConfigTypeMap());
     }
 
     protected function generateAndSaveCode($type, $ruleset): void
@@ -117,30 +137,6 @@ CODE;
     }
 
     /**
-     * @param string $type
-     *
-     * @return string
-     */
-    protected function determineCorrectFinder(string $type): string
-    {
-        switch ($type) {
-            case 'laravel':
-            case 'laravel:project':
-                return 'LaravelProjectFinder';
-
-            case 'laravel:package':
-                return 'LaravelPackageFinder';
-
-            case 'package':
-                return 'ComposerPackageFinder';
-
-            case 'project':
-            default:
-                return 'BasicProjectFinder';
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
@@ -149,7 +145,7 @@ CODE;
         $this->input = $input;
 
         if ($this->outputFileExists()) {
-            return $this->handleError('An existing ".php_cs.dist" file already exists.  Exiting.');
+            return $this->handleError("An existing '{$this->filename}' file already exists.  Exiting.");
         }
 
         $type = strtolower($input->getFirstArgument());

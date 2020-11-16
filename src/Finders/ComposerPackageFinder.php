@@ -21,4 +21,11 @@ class ComposerPackageFinder extends BaseFinder
                 "$baseDir/tests",
             ]));
     }
+
+    public static function configTypes(): array
+    {
+        return [
+            'package',
+        ];
+    }
 }
