@@ -23,7 +23,7 @@ class GenerateConfigCommand extends Command
     /** @var \Symfony\Component\Console\Input\InputInterface */
     protected $input;
 
-    public $filename = '.php_cs.dist.1';
+    public $filename = '.php_cs.dist';
 
     /**
      * Returns an array of all valid Finder classnames.
