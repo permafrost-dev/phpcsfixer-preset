@@ -54,7 +54,7 @@ class GenerateConfigCommand extends Command
         return file_exists($this->getOutputFilename());
     }
 
-    protected function isValidOutputFilename(string $filename)
+    protected function isValidOutputFilename(string $filename): bool
     {
         return (trim($filename) !== '' || preg_match('~[\w\.\-\_]+~', $filename) === 1);
     }
