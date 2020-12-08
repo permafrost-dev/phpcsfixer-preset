@@ -19,7 +19,8 @@ use Symfony\Component\Console\SingleCommandApplication;
 (new SingleCommandApplication())
     ->setName('php-cs-fixer configuration generator')
     ->addArgument('type', InputArgument::OPTIONAL, 'The type of finder to use.', 'laravel')
-    ->addOption('ruleset', null, InputOption::VALUE_OPTIONAL,  'The ruleset to use', 'default')
+    ->addOption('ruleset', 'r', InputOption::VALUE_REQUIRED,  'The ruleset to use', 'default')
+    ->addOption('outfile', 'o', InputOption::VALUE_REQUIRED,  'The filename to write to', '.php_cs.dist')
     ->setCode(function(ArgvInput $input, OutputInterface $output) {
         return (new GenerateConfigCommand())->execute($input, $output);
     })

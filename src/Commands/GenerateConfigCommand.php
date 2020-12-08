@@ -54,8 +54,20 @@ class GenerateConfigCommand extends Command
         return file_exists($this->getOutputFilename());
     }
 
+    protected function isValidOutputFilename(string $filename)
+    {
+        return (trim($filename) !== '' || preg_match('~[\w\.\-\_]+~', $filename) === 1);
+    }
+
     protected function getOutputFilename(): string
     {
+        if ($this->input->hasOption('outfile')) {
+            $temp = $this->input->getOption('outfile');
+            if ($this->isValidOutputFilename($temp)) {
+                $this->filename = $temp;
+            }
+        }
+
         return getcwd() . DIRECTORY_SEPARATOR . basename($this->filename);
     }
 
@@ -123,7 +135,7 @@ class GenerateConfigCommand extends Command
 <?php
 require_once(__DIR__.'/vendor/autoload.php');
 
-use Permafrost\\PhpCsFixerRules\\Finders\\$finderName;
+use $finderName;
 use Permafrost\\PhpCsFixerRules\\Rulesets\\$rulesetClass;
 use Permafrost\\PhpCsFixerRules\\SharedConfig;
 
