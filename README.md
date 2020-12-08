@@ -139,3 +139,48 @@ Update the `rules()` method in the `Permafrost\PhpCsFixerRules\Rulesets\DefaultR
 ## Creating Rulesets
 
 Create a class that implements the `Permafrost\PhpCsFixerRules\Rulesets\Ruleset` interface, returning your rules from the `rules()` method.
+
+Sample Ruleset:
+```php
+<?php
+
+namespace Permafrost\PhpCsFixerRules\Rulesets;
+
+class MyCustomRulesRuleset implements RuleSet
+{
+    public function allowRisky(): bool
+    {
+        return true; //this tells php-cs-fixer whether or not to permit "risky" rules.
+    }
+
+    public function name(): string
+    {
+        return 'my_custom_rules'; //the name should omit 'ruleset' from the end.
+    }
+
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            '@PSR2' => true, //for example
+            //add additional php-cs-fixer rules here as needed
+        ];
+    }
+}
+```
+
+New Rulesets should have the `Permafrost\PhpCsFixerRules\Rulesets` namespace and must be placed in the `src/Rulesets` directory to allow the binary script to automatically locate it.
+
+---
+
+### Package Versioning
+
+This package follows [semantic versioning](https://github.com/semver/semver/blob/master/semver.md) as closely as possible.
+
+---
+
+### Contributions
+
+Contributions of `Rulesets`, `Finders`, bugfixes or improvements are encouraged. Please open an appropriately-labeled issue for any of these.
