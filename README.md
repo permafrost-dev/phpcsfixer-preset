@@ -12,7 +12,7 @@
 
 ---
 
-This package provides an opinionated, shared `php-cs-fixer` configuration as well as pre-configured `Finder` classes for common project formats and use cases. PHP versions 7+ are supported.
+This package provides an opinionated, shared `php-cs-fixer` configuration as well as pre-configured `Finder` classes for common project formats and use cases. Supported PHP versions: 7.3, 7.4, and 8.0.
 
 The original concept for this package came from this excellent article on [sharing php-cs-fixer configurations across projects](https://laravel-news.com/sharing-php-cs-fixer-rules-across-projects-and-teams)  written by [Tim Mcdonald](https://timacdonald.me/).
 
@@ -73,12 +73,12 @@ Possible values for `--ruleset`:
 
 This will generate the appropriate `.php_cs.dist` file in your project directory,
 
-Specifying the `outfile` parameter will use the specified filename instead of the the default `.php_cs.dist` file.
+Specifying the `outfile` parameter will use the specified filename instead of the default `.php_cs.dist` file.
 
 Examples:
 -  `vendor/bin/pf-create-cs-config laravel -o .php_cs -r spatie`
 - `vendor/bin/pf-create-cs-config project`
-- `vendor/bin/pf-create-cs-config --outfile=.custom_php_cs_config`
+- `vendor/bin/pf-create-cs-config package --outfile=.custom_php_cs_config --ruleset=default`
 
 ---
 
