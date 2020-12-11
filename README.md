@@ -79,11 +79,21 @@ Possible values:<br>
 - `php_unit`
 - `spatie`
 
+<br>
+
+Flag: `--force` (or `-f`)<br>
+Required: **no**<br>
+Default: `false`<br>
+Possible values: none<br>
+Effect: overwrites any existing configuration file<br>
+
 
 Examples:
 
 ```bash
 vendor/bin/pf-create-cs-config laravel:package
+
+vendor/bin/pf-create-cs-config package -f
 
 vendor/bin/pf-create-cs-config laravel -o .php_cs -r spatie
 
