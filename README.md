@@ -40,22 +40,19 @@ return SharedConfig::create($finder, new DefaultRuleset());
 
 ---
 
-### Using php-cs-fixer
+## Quick Setup
 
-To format all files specified in the configuration, run:
-`$ vendor/bin/php-cs-fixer fix --config=.php_cs.dist`
+To generate a `php-cs-fixer` configuration file for your project, run:
+```bash
+vendor/bin/pf-create-cs-config <type> [-o|--outfile=filename] [-r|--ruleset=name]
+```
 
-To see which files will change, run:
-`$ vendor/bin/php-cs-fixer fix --config=.php_cs.dist --dry-run`
+<br>
 
----
-
-### Quick Setup
-
-To generate a configuration file for a project, run `vendor/bin/pf-create-cs-config <type> [-o|--outfile=.php_cs.dist] [-r|--ruleset=<ruleset>]`.
-
-The `type` parameter is mandatory.
-Possible values for `type`:
+Parameter: `<type>`<br>
+Required: **yes**<br>
+Default: _no default_<br>
+Possible values:<br>
 
 - `project`
 - `package`
@@ -63,22 +60,38 @@ Possible values for `type`:
 - `laravel:project`
 - `laravel:package`
 
-The `--ruleset` flag is optional.
-Possible values for `--ruleset`:
+<br>
+
+Flag: `--outfile` (or `-o`)<br>
+Required: **no**<br>
+Default: `.php_cs.dist`
+Possible values: any valid filename<br>
+
+<br>
+
+Flag: `--ruleset` (or `-r`)<br>
+Required: **no**<br>
+Default: `default`<br>
+Possible values:<br>
 
 - `default`
 - `laravel_shift`
 - `php_unit`
 - `spatie`
 
-This will generate the appropriate `.php_cs.dist` file in your project directory,
-
-Specifying the `outfile` parameter will use the specified filename instead of the default `.php_cs.dist` file.
 
 Examples:
--  `vendor/bin/pf-create-cs-config laravel -o .php_cs -r spatie`
-- `vendor/bin/pf-create-cs-config project`
-- `vendor/bin/pf-create-cs-config package --outfile=.custom_php_cs_config --ruleset=default`
+
+```bash
+vendor/bin/pf-create-cs-config laravel:package
+
+vendor/bin/pf-create-cs-config laravel -o .php_cs -r spatie
+
+vendor/bin/pf-create-cs-config project --ruleset=laravel_shift
+
+vendor/bin/pf-create-cs-config package --outfile=.my-config
+```
+
 
 ---
 
@@ -88,45 +101,51 @@ Examples:
 
 - ignores VCS files
 - ignores dot files
-- inclues php files
-- excludes `vendor` directory
+- inclues PHP files
+- excludes `vendor/` directory
 
 #### `LaravelProjectFinder`
 
-- inherits `BasicProjectFinder`
+- inherits [`BasicProjectFinder`](#basicprojectfinder) presets
 - excludes `*.blade.php` files
 - excludes all files in `bootstrap/`, `public/`, `resources/`, `storage/`
-- includes php files in `app/`, `config/`, `database/`, `routes/`, `tests/`
+- includes PHP files in `app/`, `config/`, `database/`, `routes/`, `tests/`
 
 #### `LaravelPackageFinder`
 
-- inherits `BasicProjectFinder`
+- inherits [`BasicProjectFinder`](#basicprojectfinder) presets
 - excludes `*.blade.php` files
 - excludes all files in `resources/`
-- includes php files in `src/`, `tests/`, `config/`
+- includes PHP files in `src/`, `tests/`, `config/`
 
 #### `ComposerPackageFinder`
 
-- inherits `BasicProjectFinder`
-- includes php files in `src/`, `tests/`
+- inherits [`BasicProjectFinder`](#basicprojectfinder) presets
+- includes PHP files in `src/`, `tests/`
+
+---
 
 ## Rulesets
 
 #### `DefaultRuleset`
 
-- The default, opinionated ruleset provided by this package.
+The default, opinionated Ruleset provided by this package.
 
 #### `LaravelShiftRuleset`
 
-- The ruleset used by [Laravel Shift](https://laravelshift.com).
+- Ruleset used by [Laravel Shift](https://laravelshift.com).
 
 #### `PhpUnitRuleset`
 
-- The ruleset used by [PHPUnit](https://github.com/sebastianbergmann/phpunit).
+- Ruleset used by [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 
 #### `SpatieRuleset`
 
-- The ruleset used by [Spatie](https://github.com/spatie).
+- Ruleset used by [Spatie](https://github.com/spatie).
+
+<br>
+
+---
 
 ## Usage
 
@@ -175,12 +194,24 @@ New Rulesets should have the `Permafrost\PhpCsFixerRules\Rulesets` namespace and
 
 ---
 
-### Package Versioning
+## Using php-cs-fixer
+
+To format all files specified in the configuration, run:
+
+`vendor/bin/php-cs-fixer fix`
+
+To see which files will change without actually formatting them, run:
+
+`vendor/bin/php-cs-fixer fix  --dry-run`
+
+---
+
+## Package Versioning
 
 This package follows [semantic versioning](https://github.com/semver/semver/blob/master/semver.md) as closely as possible.
 
 ---
 
-### Contributions
+## Contributions
 
-Contributions of `Rulesets`, `Finders`, bugfixes or improvements are encouraged. Please open an appropriately-labeled issue for any of these.
+Contributions of `Rulesets`, `Finders`, bugfixes, suggestions, or improvements are welcomed. Please open an appropriately labeled issue for any of these.
