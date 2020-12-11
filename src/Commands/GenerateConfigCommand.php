@@ -71,6 +71,11 @@ class GenerateConfigCommand extends Command
         return getcwd() . DIRECTORY_SEPARATOR . basename($this->filename);
     }
 
+    protected function shouldOverwriteExisting(): bool
+    {
+        return $this->input->hasOption('force') && $this->input->getOption('force');
+    }
+
     protected function handleError(string $message): int
     {
         $this->output->writeln("Error: <info>$message</info>");
@@ -131,6 +136,10 @@ class GenerateConfigCommand extends Command
 
     protected function generatePhpCsConfig(string $finderName, string $rulesetClass)
     {
+        //remove the namespace from the finder classname
+        $finderNameParts = explode('\\', $finderName);
+        $finderNameShort = array_pop($finderNameParts);
+
         $code = <<<CODE
 <?php
 require_once(__DIR__.'/vendor/autoload.php');
@@ -140,7 +149,7 @@ use Permafrost\\PhpCsFixerRules\\Rulesets\\$rulesetClass;
 use Permafrost\\PhpCsFixerRules\\SharedConfig;
 
 // optional: chain additiional custom Finder options:
-\$finder = $finderName::create(__DIR__); 
+\$finder = $finderNameShort::create(__DIR__); 
 
 return SharedConfig::create(\$finder, new $rulesetClass());
 CODE;
@@ -156,8 +165,12 @@ CODE;
         $this->output = $output;
         $this->input = $input;
 
-        if ($this->outputFileExists()) {
+        if (!$this->shouldOverwriteExisting() && $this->outputFileExists()) {
             return $this->handleError("An existing '{$this->filename}' file already exists.  Exiting.");
+        }
+
+        if($this->shouldOverwriteExisting()) {
+            $this->output->writeln("<info>Overwriting existing {$this->filename} file.");
         }
 
         $type = strtolower($input->getFirstArgument());

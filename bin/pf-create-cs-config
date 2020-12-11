@@ -21,6 +21,7 @@ use Symfony\Component\Console\SingleCommandApplication;
     ->addArgument('type', InputArgument::OPTIONAL, 'The type of finder to use.', 'laravel')
     ->addOption('ruleset', 'r', InputOption::VALUE_REQUIRED,  'The ruleset to use', 'default')
     ->addOption('outfile', 'o', InputOption::VALUE_REQUIRED,  'The filename to write to', '.php_cs.dist')
+    ->addOption('force', 'f', InputOption::VALUE_NONE,  'Overwrite existing file')
     ->setCode(function(ArgvInput $input, OutputInterface $output) {
         return (new GenerateConfigCommand())->execute($input, $output);
     })
