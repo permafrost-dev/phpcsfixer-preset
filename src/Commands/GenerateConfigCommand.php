@@ -9,9 +9,14 @@ use Permafrost\PhpCsFixerRules\Finders\LaravelPackageFinder;
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+
 
 class GenerateConfigCommand extends Command
 {
@@ -149,12 +154,33 @@ use Permafrost\\PhpCsFixerRules\\Rulesets\\$rulesetClass;
 use Permafrost\\PhpCsFixerRules\\SharedConfig;
 
 // optional: chain additiional custom Finder options:
-\$finder = $finderNameShort::create(__DIR__); 
+\$finder = $finderNameShort::create(__DIR__);
 
 return SharedConfig::create(\$finder, new $rulesetClass());
 CODE;
 
         return trim($code);
+    }
+
+    protected function handleExistingOutputFile(): bool
+    {
+        if (!$this->outputFileExists()) {
+            return false;
+        }
+
+        if (!$this->shouldOverwriteExisting()) {
+            $helperSet = new HelperSet([new SymfonyQuestionHelper()]);
+            $this->setHelperSet($helperSet);
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion("The file `{$this->filename}` already exists. Overwrite it?", false);
+
+            if (!$helper->ask($this->input, $this->output, $question)) {
+                $this->output->writeln('<info>Not overwriting existing file.</info>');
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -165,12 +191,8 @@ CODE;
         $this->output = $output;
         $this->input = $input;
 
-        if (!$this->shouldOverwriteExisting() && $this->outputFileExists()) {
-            return $this->handleError("An existing '{$this->filename}' file already exists.  Exiting.");
-        }
-
-        if($this->shouldOverwriteExisting()) {
-            $this->output->writeln("<info>Overwriting existing {$this->filename} file.");
+        if (!$this->handleExistingOutputFile()) {
+            return Command::FAILURE;
         }
 
         $type = strtolower($input->getFirstArgument());
