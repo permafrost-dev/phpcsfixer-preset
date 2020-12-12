@@ -6,7 +6,7 @@ class DefaultRuleset implements RuleSet
 {
     public function allowRisky(): bool
     {
-        return false;
+        return true;
     }
 
     public function name(): string
@@ -70,6 +70,12 @@ class DefaultRuleset implements RuleSet
                 'replacements' => ['type' => 'var'],
             ],
             'phpdoc_var_without_name' => false,
+            'php_unit_method_casing' => [
+            	'case' => 'snake_case',
+        	],
+        	'php_unit_test_annotation' => [
+        		'style' => 'annotation',
+        	],
             'short_scalar_cast' => true,
             'single_blank_line_at_eof' => true,
             'single_class_element_per_statement' => [
