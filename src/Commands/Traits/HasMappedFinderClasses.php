@@ -35,8 +35,8 @@ trait HasMappedFinderClasses
 
         $result = [];
 
-        foreach($this->finders() as $finderClass) {
-            foreach($finderClass::configTypes() as $configType) {
+        foreach ($this->finders() as $finderClass) {
+            foreach ($finderClass::configTypes() as $configType) {
                 $result[$configType] = $finderClass;
             }
         }

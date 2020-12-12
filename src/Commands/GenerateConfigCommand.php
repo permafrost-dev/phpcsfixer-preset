@@ -10,13 +10,11 @@ use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-
+use Symfony\Component\Finder\Finder;
 
 class GenerateConfigCommand extends Command
 {
@@ -61,7 +59,7 @@ class GenerateConfigCommand extends Command
 
     protected function isValidOutputFilename(string $filename): bool
     {
-        return (trim($filename) !== '' || preg_match('~[\w\.\-\_]+~', $filename) === 1);
+        return trim($filename) !== '' || preg_match('~[\w\.\-\_]+~', $filename) === 1;
     }
 
     protected function getOutputFilename(): string
@@ -176,6 +174,7 @@ CODE;
 
             if (!$helper->ask($this->input, $this->output, $question)) {
                 $this->output->writeln('<info>Not overwriting existing file.</info>');
+
                 return false;
             }
         }

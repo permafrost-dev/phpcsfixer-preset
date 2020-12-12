@@ -11,7 +11,7 @@ class LaravelShiftRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_implements_the_ruleset_contract(): void
+    public function itImplementsTheRulesetContract(): void
     {
         $ruleset = new LaravelShiftRuleset();
 
@@ -21,7 +21,7 @@ class LaravelShiftRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_implements_only_interface_methods(): void
+    public function itImplementsOnlyInterfaceMethods(): void
     {
         $reflect = new \ReflectionClass(new LaravelShiftRuleset());
 
@@ -31,7 +31,7 @@ class LaravelShiftRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_a_valid_name(): void
+    public function itReturnsAValidName(): void
     {
         $ruleset = new LaravelShiftRuleset();
 
@@ -43,7 +43,7 @@ class LaravelShiftRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_valid_rules(): void
+    public function itReturnsValidRules(): void
     {
         $ruleset = new LaravelShiftRuleset();
 

@@ -10,7 +10,7 @@ class BaseFinderTest extends TestCase
     /**
      * @test
      */
-    public function it_only_includes_existing_paths(): void
+    public function itOnlyIncludesExistingPaths(): void
     {
         $testDirs = [
             realpath(__DIR__ . '/../src'),

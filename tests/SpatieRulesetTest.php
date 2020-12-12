@@ -2,8 +2,8 @@
 
 namespace Permafrost\Tests\Unit;
 
-use Permafrost\PhpCsFixerRules\Rulesets\SpatieRuleset;
 use Permafrost\PhpCsFixerRules\Rulesets\RuleSet;
+use Permafrost\PhpCsFixerRules\Rulesets\SpatieRuleset;
 use PHPUnit\Framework\TestCase;
 
 class SpatieRulesetTest extends TestCase
@@ -11,7 +11,7 @@ class SpatieRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_implements_the_ruleset_contract(): void
+    public function itImplementsTheRulesetContract(): void
     {
         $ruleset = new SpatieRuleset();
 
@@ -21,7 +21,7 @@ class SpatieRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_implements_only_interface_methods(): void
+    public function itImplementsOnlyInterfaceMethods(): void
     {
         $reflect = new \ReflectionClass(new SpatieRuleset());
 
@@ -31,7 +31,7 @@ class SpatieRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_a_valid_name(): void
+    public function itReturnsAValidName(): void
     {
         $ruleset = new SpatieRuleset();
 
@@ -43,7 +43,7 @@ class SpatieRulesetTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_valid_rules(): void
+    public function itReturnsValidRules(): void
     {
         $ruleset = new SpatieRuleset();
 

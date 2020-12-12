@@ -171,7 +171,7 @@ class PhpUnitRuleset implements RuleSet
                     PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_CONST,
                     PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_FUNCTION,
                     PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_CLASS,
-                ]
+                ],
             ],
             'ordered_interfaces' => [
                 'direction' => 'ascend',
