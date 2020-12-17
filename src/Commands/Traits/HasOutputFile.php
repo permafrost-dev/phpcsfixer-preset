@@ -36,6 +36,4 @@ trait HasOutputFile
     {
         return $this->input->hasOption('force') && $this->input->getOption('force');
     }
-
-
 }
