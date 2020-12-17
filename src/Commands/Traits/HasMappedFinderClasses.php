@@ -16,7 +16,7 @@ trait HasMappedFinderClasses
     {
         $map = $this->finderConfigTypeMap();
 
-        return $map[$type] ?? $map['default'];
+        return $map[$type] ?? $map['project'];
     }
 
     /**
@@ -39,10 +39,6 @@ trait HasMappedFinderClasses
             foreach ($finderClass::configTypes() as $configType) {
                 $result[$configType] = $finderClass;
             }
-        }
-
-        if (!isset($result['default'])) {
-            $result['default'] = $this->finders()[0];
         }
 
         $this->finderConfigTypeMapCache = $result;

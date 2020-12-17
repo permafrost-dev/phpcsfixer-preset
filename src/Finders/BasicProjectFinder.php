@@ -28,7 +28,6 @@ class BasicProjectFinder extends BaseFinder
     {
         return [
             'project',
-            'default',
         ];
     }
 }
