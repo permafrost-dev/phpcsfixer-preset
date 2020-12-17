@@ -213,6 +213,7 @@ CODE;
 
         if (!$this->generateAndSaveCode($type, $ruleset)) {
             $this->handleError('Failed to write to output file.');
+
             return Command::FAILURE;
         }
 
