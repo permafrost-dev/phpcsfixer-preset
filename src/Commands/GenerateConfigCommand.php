@@ -81,7 +81,7 @@ class GenerateConfigCommand extends Command
 
     protected function handleError(string $message): int
     {
-        $this->output->writeln("Error: <info>$message</info>");
+        $this->output->writeln("<info>$message</info>");
 
         return Command::FAILURE;
     }
@@ -93,17 +93,21 @@ class GenerateConfigCommand extends Command
         return Command::SUCCESS;
     }
 
-    protected function validateUserInput($type, $ruleset)
+    protected function validUserInput($type, $ruleset): bool
     {
         $validRulesets = $this->validRulesets();
 
         if (!in_array($ruleset, $validRulesets, true)) {
-            return $this->handleError('Ruleset not found.  Valid rulesets: ' . implode(', ', $validRulesets) . '.');
+            $this->handleError("Ruleset not found.\nValid rulesets: " . implode(', ', $validRulesets) . '.');
+            return false;
         }
 
         if (!in_array($type, $this->validTypes(), true)) {
-            return $this->handleError('Invalid type.  Specify one of: ' . implode(', ', $this->validTypes()) . '.');
+            $this->handleError("Invalid type.\nValid types: " . implode(', ', $this->validTypes()) . '.');
+            return false;
         }
+
+        return true;
     }
 
     protected function validRulesets(): array
@@ -137,7 +141,7 @@ class GenerateConfigCommand extends Command
         file_put_contents($this->getOutputFilename(), $code);
     }
 
-    protected function generatePhpCsConfig(string $finderName, string $rulesetClass)
+    protected function generatePhpCsConfig(string $finderName, string $rulesetClass): string
     {
         //remove the namespace from the finder classname
         $finderNameParts = explode('\\', $finderName);
@@ -190,14 +194,17 @@ CODE;
         $this->output = $output;
         $this->input = $input;
 
-        if (!$this->handleExistingOutputFile()) {
+        $type = strtolower($input->getFirstArgument());
+        $ruleset = strtolower($this->getRulesetName());
+
+        if (!$this->validUserInput($type, $ruleset)) {
             return Command::FAILURE;
         }
 
-        $type = strtolower($input->getFirstArgument());
-        $ruleset = $this->getRulesetName();
+        if ($this->outputFileExists() && !$this->handleExistingOutputFile()) {
+            return Command::FAILURE;
+        }
 
-        $this->validateUserInput($type, $ruleset);
         $this->generateAndSaveCode($type, $ruleset);
 
         return $this->handleFinished();
