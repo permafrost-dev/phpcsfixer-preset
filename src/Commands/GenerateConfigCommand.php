@@ -133,14 +133,18 @@ class GenerateConfigCommand extends Command
         return array_keys($this->finderConfigTypeMap());
     }
 
-    protected function generateAndSaveCode($type, $ruleset): void
+    protected function generateAndSaveCode($type, $ruleset): bool
     {
         $code = $this->generatePhpCsConfig(
             $this->determineCorrectFinder($type),
             Str::studly($ruleset) . 'Ruleset'
         );
 
-        file_put_contents($this->getOutputFilename(), $code);
+        if (file_put_contents($this->getOutputFilename(), $code) === false) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function generatePhpCsConfig(string $finderName, string $rulesetClass): string
@@ -207,7 +211,10 @@ CODE;
             return Command::FAILURE;
         }
 
-        $this->generateAndSaveCode($type, $ruleset);
+        if (!$this->generateAndSaveCode($type, $ruleset)) {
+            $this->handleError('Failed to write to output file.');
+            return Command::FAILURE;
+        }
 
         return $this->handleFinished();
     }
