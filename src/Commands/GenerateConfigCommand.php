@@ -2,7 +2,9 @@
 
 namespace Permafrost\PhpCsFixerRules\Commands;
 
+use Permafrost\PhpCsFixerRules\Commands\Traits\DisplaysOutput;
 use Permafrost\PhpCsFixerRules\Commands\Traits\HasMappedFinderClasses;
+use Permafrost\PhpCsFixerRules\Commands\Traits\HasOutputFile;
 use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
 use Permafrost\PhpCsFixerRules\Finders\ComposerPackageFinder;
 use Permafrost\PhpCsFixerRules\Finders\LaravelPackageFinder;
@@ -18,15 +20,13 @@ use Symfony\Component\Finder\Finder;
 
 class GenerateConfigCommand extends Command
 {
-    use HasMappedFinderClasses;
+    use DisplaysOutput, HasMappedFinderClasses, HasOutputFile;
 
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     protected $output;
 
     /** @var \Symfony\Component\Console\Input\InputInterface */
     protected $input;
-
-    public $filename = '.php_cs.dist';
 
     /**
      * Returns an array of all valid Finder classnames.
@@ -52,59 +52,18 @@ class GenerateConfigCommand extends Command
         return 'default';
     }
 
-    protected function outputFileExists()
-    {
-        return file_exists($this->getOutputFilename());
-    }
-
-    protected function isValidOutputFilename(string $filename): bool
-    {
-        return trim($filename) !== '' || preg_match('~[\w\.\-\_]+~', $filename) === 1;
-    }
-
-    protected function getOutputFilename(): string
-    {
-        if ($this->input->hasOption('outfile')) {
-            $temp = $this->input->getOption('outfile');
-            if ($this->isValidOutputFilename($temp)) {
-                $this->filename = $temp;
-            }
-        }
-
-        return getcwd() . DIRECTORY_SEPARATOR . basename($this->filename);
-    }
-
-    protected function shouldOverwriteExisting(): bool
-    {
-        return $this->input->hasOption('force') && $this->input->getOption('force');
-    }
-
-    protected function handleError(string $message): int
-    {
-        $this->output->writeln("<info>$message</info>");
-
-        return Command::FAILURE;
-    }
-
-    protected function handleFinished(): int
-    {
-        $this->output->writeln('<info>Successfully wrote configuration file.</info>');
-
-        return Command::SUCCESS;
-    }
-
     protected function validUserInput($type, $ruleset): bool
     {
         $validRulesets = $this->validRulesets();
 
         if (!in_array($ruleset, $validRulesets, true)) {
-            $this->handleError("Ruleset not found.\nValid rulesets: " . implode(', ', $validRulesets) . '.');
+            $this->displayError("Ruleset not found.\nValid rulesets: " . implode(', ', $validRulesets) . '.');
 
             return false;
         }
 
         if (!in_array($type, $this->validTypes(), true)) {
-            $this->handleError("Invalid type.\nValid types: " . implode(', ', $this->validTypes()) . '.');
+            $this->displayError("Invalid type.\nValid types: " . implode(', ', $this->validTypes()) . '.');
 
             return false;
         }
@@ -200,6 +159,8 @@ CODE;
         $this->output = $output;
         $this->input = $input;
 
+        $this->updateOutputFilename();
+
         $type = strtolower($input->getFirstArgument());
         $ruleset = strtolower($this->getRulesetName());
 
@@ -212,11 +173,13 @@ CODE;
         }
 
         if (!$this->generateAndSaveCode($type, $ruleset)) {
-            $this->handleError('Failed to write to output file.');
+            $this->displayError('Failed to write to output file.');
 
             return Command::FAILURE;
         }
 
-        return $this->handleFinished();
+        $this->displayFinishedSuccessfully();
+
+        return Command::SUCCESS;
     }
 }
