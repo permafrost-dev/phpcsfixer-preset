@@ -11,7 +11,7 @@ class PhpUnitRulesetTest extends TestCase
     /**
      * @test
      */
-    public function itImplementsTheRulesetContract(): void
+    public function it_implements_the_ruleset_contract(): void
     {
         $ruleset = new PhpUnitRuleset();
 
@@ -21,7 +21,7 @@ class PhpUnitRulesetTest extends TestCase
     /**
      * @test
      */
-    public function itImplementsOnlyInterfaceMethods(): void
+    public function it_implements_only_interface_methods(): void
     {
         $reflect = new \ReflectionClass(new PhpUnitRuleset());
 
@@ -31,7 +31,7 @@ class PhpUnitRulesetTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsAValidName(): void
+    public function it_returns_a_valid_name(): void
     {
         $ruleset = new PhpUnitRuleset();
 
@@ -43,7 +43,7 @@ class PhpUnitRulesetTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsValidRules(): void
+    public function it_returns_valid_rules(): void
     {
         $ruleset = new PhpUnitRuleset();
 

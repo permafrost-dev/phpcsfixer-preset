@@ -99,11 +99,13 @@ class GenerateConfigCommand extends Command
 
         if (!in_array($ruleset, $validRulesets, true)) {
             $this->handleError("Ruleset not found.\nValid rulesets: " . implode(', ', $validRulesets) . '.');
+
             return false;
         }
 
         if (!in_array($type, $this->validTypes(), true)) {
             $this->handleError("Invalid type.\nValid types: " . implode(', ', $this->validTypes()) . '.');
+
             return false;
         }
 

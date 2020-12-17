@@ -71,11 +71,11 @@ class DefaultRuleset implements RuleSet
             ],
             'phpdoc_var_without_name' => false,
             'php_unit_method_casing' => [
-            	'case' => 'snake_case',
-        	],
-        	'php_unit_test_annotation' => [
-        		'style' => 'annotation',
-        	],
+                'case' => 'snake_case',
+            ],
+            'php_unit_test_annotation' => [
+                'style' => 'annotation',
+            ],
             'short_scalar_cast' => true,
             'single_blank_line_at_eof' => true,
             'single_class_element_per_statement' => [

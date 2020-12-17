@@ -11,7 +11,7 @@ class ComposerPackageFinderTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsAPhpCsFinderObject(): void
+    public function it_returns_a_php_cs_finder_object(): void
     {
         $finder = ComposerPackageFinder::create(__DIR__ . '/..');
 

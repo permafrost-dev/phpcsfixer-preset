@@ -13,7 +13,7 @@ class SharedConfigTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsAPhpCsFixerConfigObject(): void
+    public function it_returns_a_php_cs_fixer_config_object(): void
     {
         $finder = Finder::create();
         $config = SharedConfig::create($finder);
@@ -24,7 +24,7 @@ class SharedConfigTest extends TestCase
     /**
      * @test
      */
-    public function itMergesRules(): void
+    public function it_merges_rules(): void
     {
         $ruleset = new DefaultRuleset();
         $rules = SharedConfig::loadAndMergeRules($ruleset, ['__MERGED_RULE__' => 12]);
@@ -39,7 +39,7 @@ class SharedConfigTest extends TestCase
     /**
      * @test
      */
-    public function itLoadsRules(): void
+    public function it_loads_rules(): void
     {
         $ruleset = new DefaultRuleset();
         $rules = SharedConfig::loadAndMergeRules($ruleset, []);
