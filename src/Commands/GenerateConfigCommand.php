@@ -2,31 +2,42 @@
 
 namespace Permafrost\PhpCsFixerRules\Commands;
 
-use Permafrost\PhpCsFixerRules\Commands\Traits\DisplaysOutput;
-use Permafrost\PhpCsFixerRules\Commands\Traits\HasMappedFinderClasses;
-use Permafrost\PhpCsFixerRules\Commands\Traits\HasOutputFile;
+use Permafrost\PhpCsFixerRules\Commands\Support\ConfigGenerator;
+use Permafrost\PhpCsFixerRules\Commands\Support\ConsoleOverwriteExistingFilePrompt;
+use Permafrost\PhpCsFixerRules\Commands\Support\FinderMap;
+use Permafrost\PhpCsFixerRules\Commands\Support\Options;
 use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
 use Permafrost\PhpCsFixerRules\Finders\ComposerPackageFinder;
 use Permafrost\PhpCsFixerRules\Finders\LaravelPackageFinder;
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Finder\Finder;
 
 class GenerateConfigCommand extends Command
 {
-    use DisplaysOutput, HasMappedFinderClasses, HasOutputFile;
-
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
+    /** @var \Symfony\Component\Console\Output\OutputInterface $output */
     protected $output;
 
-    /** @var \Symfony\Component\Console\Input\InputInterface */
+    /** @var \Symfony\Component\Console\Input\InputInterface $input */
     protected $input;
+
+    /** @var FinderMap $finderMap */
+    protected $finderMap;
+
+    /** @var Options $options */
+    protected $options;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct(string $name = null)
+    {
+        $this->finderMap = new FinderMap($this->finders());
+
+        parent::__construct($name);
+    }
 
     /**
      * Returns an array of all valid Finder classnames.
@@ -43,27 +54,62 @@ class GenerateConfigCommand extends Command
         ];
     }
 
-    protected function getRulesetName()
+    /**
+     * Returns an array of all valid Ruleset names.
+     *
+     * @return string[]
+     */
+    protected function rulesets(): array
     {
-        if ($this->input->hasOption('ruleset')) {
-            return $this->input->getOption('ruleset');
-        }
-
-        return 'default';
+        return [
+            'default',
+            'laravel_shift',
+            'php_unit',
+            'spatie',
+        ];
     }
 
-    protected function validUserInput($type, $ruleset): bool
+    /**
+     * Returns an array of all valid configuration type names.
+     *
+     * @return array
+     */
+    protected function types(): array
     {
-        $validRulesets = $this->validRulesets();
+        return array_keys($this->finderMap->getMap());
+    }
 
-        if (!in_array($ruleset, $validRulesets, true)) {
-            $this->displayError("Ruleset not found.\nValid rulesets: " . implode(', ', $validRulesets) . '.');
+    /**
+     * Returns the fully-qualified output filename.
+     *
+     * @return string
+     */
+    protected function getOutputFilename(): string
+    {
+        return getcwd() . DIRECTORY_SEPARATOR . $this->options->filename();
+    }
+
+    /**
+     * Validates user-provided input:
+     *   - ruleset flag
+     *   - type parameter.
+     *
+     * Returns true if the user input is valid, otherwise false.
+     *
+     * @return bool
+     */
+    protected function validUserInput(): bool
+    {
+        if (!in_array($this->options->rulesetName(), $this->rulesets(), true)) {
+            $this->output->writeln('<comment>Ruleset not found.</comment>');
+            $this->output->writeln('<comment>Valid rulesets: ' . implode(', ', $this->rulesets()) . '.</comment>');
 
             return false;
         }
 
-        if (!in_array($type, $this->validTypes(), true)) {
-            $this->displayError("Invalid type.\nValid types: " . implode(', ', $this->validTypes()) . '.');
+        if (!in_array($this->options->typeName(), $this->types(), true)) {
+            $this->output->writeln('<comment>Invalid type.</comment>');
+            $this->output->writeln('<comment>Valid types: ' . implode(', ', $this->types()) . '.</comment>');
 
             return false;
         }
@@ -71,84 +117,58 @@ class GenerateConfigCommand extends Command
         return true;
     }
 
-    protected function validRulesets(): array
+    /**
+     * Generates the configuration file and tries to write the contents to file.
+     * Returns true on success or false if the file could not be written.
+     *
+     * @param ConfigGenerator $generator
+     *
+     * @return bool
+     */
+    protected function generateAndSaveCode(ConfigGenerator $generator): bool
     {
-        $result = [];
-        $finder = Finder::create();
-        $files = $finder->in(__DIR__ . '/../Rulesets')
-            ->name('*Ruleset.php')
-            ->files()
-            ->getIterator();
+        $type = $this->options->typeName();
+        $ruleset = Str::studly($this->options->rulesetName()) . 'Ruleset';
 
-        foreach ($files as $file) {
-            $result[] = Str::snake(preg_replace('~Ruleset$~', '', $file->getBasename('.php')));
-        }
-
-        return $result;
-    }
-
-    protected function validTypes(): array
-    {
-        return array_keys($this->finderConfigTypeMap());
-    }
-
-    protected function generateAndSaveCode($type, $ruleset): bool
-    {
-        $code = $this->generatePhpCsConfig(
-            $this->determineCorrectFinder($type),
-            Str::studly($ruleset) . 'Ruleset'
-        );
+        $code = $generator->generate($this->finderMap->find($type), $ruleset);
 
         if (file_put_contents($this->getOutputFilename(), $code) === false) {
+            $this->output->writeln('<comment>Failed to write to output file.</comment>');
+
             return false;
         }
 
         return true;
     }
 
-    protected function generatePhpCsConfig(string $finderName, string $rulesetClass): string
+    /**
+     * If the --force flag was not provided, display a prompt to the user asking if they want to
+     * overwrite the existing file.
+     *
+     * Returns true if the file should be overwritten, otherwise false.
+     *
+     * @return bool
+     */
+    protected function overwriteExistingFile(): bool
     {
-        //remove the namespace from the finder classname
-        $finderNameParts = explode('\\', $finderName);
-        $finderNameShort = array_pop($finderNameParts);
+        if (!$this->options->overwriteExisting()) {
+            $prompt = new ConsoleOverwriteExistingFilePrompt($this->input, $this->output, $this);
 
-        $code = <<<CODE
-<?php
-require_once(__DIR__.'/vendor/autoload.php');
-
-use $finderName;
-use Permafrost\\PhpCsFixerRules\\Rulesets\\$rulesetClass;
-use Permafrost\\PhpCsFixerRules\\SharedConfig;
-
-// optional: chain additiional custom Finder options:
-\$finder = $finderNameShort::create(__DIR__);
-
-return SharedConfig::create(\$finder, new $rulesetClass());
-CODE;
-
-        return trim($code);
-    }
-
-    protected function handleExistingOutputFile(): bool
-    {
-        if (!$this->outputFileExists()) {
-            return false;
-        }
-
-        if (!$this->shouldOverwriteExisting()) {
-            $helperSet = new HelperSet([new SymfonyQuestionHelper()]);
-            $this->setHelperSet($helperSet);
-            $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion("The file `{$this->filename}` already exists. Overwrite it?", false);
-
-            if (!$helper->ask($this->input, $this->output, $question)) {
-                $this->output->writeln('<info>Not overwriting existing file.</info>');
-
-                return false;
-            }
+            return $prompt->display($this->options->filename());
         }
 
         return true;
+    }
+
+    /**
+     * Returns true if the output file exists, otherwise false.
+     *
+     * @return bool
+     */
+    protected function outputFileExists(): bool
+    {
+        return file_exists($this->getOutputFilename())
+            && !is_dir($this->getOutputFilename());
     }
 
     /**
@@ -158,27 +178,22 @@ CODE;
     {
         $this->output = $output;
         $this->input = $input;
+        $this->options = new Options($input);
+        $filename = $this->options->filename();
 
-        $this->updateOutputFilename();
-
-        $type = strtolower($input->getFirstArgument());
-        $ruleset = strtolower($this->getRulesetName());
-
-        if (!$this->validUserInput($type, $ruleset)) {
+        if (!$this->validUserInput()) {
             return Command::FAILURE;
         }
 
-        if ($this->outputFileExists() && !$this->handleExistingOutputFile()) {
+        if ($this->outputFileExists() && !$this->overwriteExistingFile()) {
             return Command::FAILURE;
         }
 
-        if (!$this->generateAndSaveCode($type, $ruleset)) {
-            $this->displayError('Failed to write to output file.');
-
+        if (!$this->generateAndSaveCode(new ConfigGenerator())) {
             return Command::FAILURE;
         }
 
-        $this->displayFinishedSuccessfully();
+        $this->output->writeln("<info>Successfully wrote configuration file '{$filename}'.</info>");
 
         return Command::SUCCESS;
     }
