@@ -17,4 +17,12 @@ class LaravelPackageFinderTest extends TestCase
 
         $this->assertInstanceOf(Finder::class, $finder);
     }
+
+    /** @test */
+    public function it_returns_config_type_names_containing_the_word_laravel(): void
+    {
+        foreach (LaravelPackageFinder::configTypes() as $type) {
+            $this->assertStringContainsString('laravel', $type);
+        }
+    }
 }
