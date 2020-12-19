@@ -12,7 +12,11 @@
 
 ---
 
-This package provides an opinionated, shared `php-cs-fixer` configuration as well as pre-configured `Finder` classes for common project formats and use cases. Supported PHP versions: 7.3, 7.4, and 8.0.
+This package allows you to use the same `php-cs-fixer` formatting rules across all of your projects without copy-and-pasting configuration files. There's also a quick setup script to automatically generate a configuration file for your project structure and preferred formatting preset.
+
+`permafrost-dev/phpcsfixer-preset` provides several opinionated `php-cs-fixer` configuration choices as well as pre-configured `Finder` classes for common project formats and use cases.
+
+Supported PHP versions: `7.3`, `7.4`, and `8.0`.
 
 The original concept for this package came from this excellent article on [sharing php-cs-fixer configurations across projects](https://laravel-news.com/sharing-php-cs-fixer-rules-across-projects-and-teams)  written by [Tim Mcdonald](https://timacdonald.me/).
 
@@ -23,6 +27,8 @@ The original concept for this package came from this excellent article on [shari
 ---
 
 ## Example `.php_cs.dist` file
+
+This example uses the Laravel project finder and the Default Ruleset:
 
 ```php
 <?php
@@ -111,7 +117,7 @@ vendor/bin/pf-create-cs-config package --outfile=.my-config
 
 - ignores VCS files
 - ignores dot files
-- inclues PHP files
+- includes PHP files
 - excludes `vendor/` directory
 
 #### `LaravelProjectFinder`
@@ -139,7 +145,7 @@ vendor/bin/pf-create-cs-config package --outfile=.my-config
 
 #### `DefaultRuleset`
 
-The default, opinionated Ruleset provided by this package.
+The default opinionated Ruleset provided by this package.
 
 #### `LaravelShiftRuleset`
 
@@ -182,7 +188,7 @@ class MyCustomRulesRuleset implements RuleSet
         return true; //this tells php-cs-fixer whether or not to permit "risky" rules.
     }
 
-    public function name(): string
+    public static function name(): string
     {
         return 'my_custom_rules'; //the name should omit 'ruleset' from the end.
     }
@@ -200,28 +206,36 @@ class MyCustomRulesRuleset implements RuleSet
 }
 ```
 
-New Rulesets should have the `Permafrost\PhpCsFixerRules\Rulesets` namespace and must be placed in the `src/Rulesets` directory to allow the binary script to automatically locate it.
+If adding a new Ruleset to this package, the Ruleset must be registered in `\Permafrost\PhpCsFixerRules\Commands\GenerateConfigCommand@rulesets()` to allow the quick setup command to use it.  
 
 ---
 
-## Using php-cs-fixer
+## Formatting your code with php-cs-fixer
 
 To format all files specified in the configuration, run:
 
 `vendor/bin/php-cs-fixer fix`
 
-To see which files will change without actually formatting them, run:
+To see which files will be formatted without actually formatting them, run:
 
 `vendor/bin/php-cs-fixer fix  --dry-run`
 
 ---
 
+## Testing
+
+This package uses PHPUnit for unit tests.  To run the test suite, run the following command:
+
+`./vendor/bin/phpunit`
+
+---
+
 ## Package Versioning
 
-This package follows [semantic versioning](https://github.com/semver/semver/blob/master/semver.md) as closely as possible.
+This package follows [semantic versioning](https://github.com/semver/semver/blob/master/semver.md).
 
 ---
 
 ## Contributions
 
-Contributions of `Rulesets`, `Finders`, bugfixes, suggestions, or improvements are welcomed. Please open an appropriately labeled issue for any of these.
+Contributions of `Rulesets`, `Finders`, bugfixes, suggestions, or improvements are welcomed. Please open an appropriately labeled issue or pull request for any of these.
