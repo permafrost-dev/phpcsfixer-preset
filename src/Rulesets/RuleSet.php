@@ -6,7 +6,7 @@ interface RuleSet
 {
     public function allowRisky(): bool;
 
-    public function name(): string;
+    public static function name(): string;
 
     public function rules(): array;
 }

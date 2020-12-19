@@ -9,7 +9,7 @@ class PhpUnitRuleset implements RuleSet
         return true;
     }
 
-    public function name(): string
+    public static function name(): string
     {
         return 'php_unit';
     }
@@ -78,7 +78,7 @@ class PhpUnitRuleset implements RuleSet
             //'header_comment' => ['header' => $header, 'separate' => 'none'],
             'heredoc_to_nowdoc' => true,
             'increment_style' => [
-                'style' => PhpCsFixer\Fixer\Operator\IncrementStyleFixer::STYLE_POST,
+                'style' => 'post',
             ],
             'indentation_type' => true,
             'is_null' => true,
@@ -168,9 +168,9 @@ class PhpUnitRuleset implements RuleSet
             ],
             'ordered_imports' => [
                 'imports_order' => [
-                    PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_CONST,
-                    PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_FUNCTION,
-                    PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_CLASS,
+                    \PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_CONST,
+                    \PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_FUNCTION,
+                    \PhpCsFixer\Fixer\Import\OrderedImportsFixer::IMPORT_TYPE_CLASS,
                 ],
             ],
             'ordered_interfaces' => [

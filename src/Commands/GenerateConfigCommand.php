@@ -10,6 +10,10 @@ use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
 use Permafrost\PhpCsFixerRules\Finders\ComposerPackageFinder;
 use Permafrost\PhpCsFixerRules\Finders\LaravelPackageFinder;
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
+use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
+use Permafrost\PhpCsFixerRules\Rulesets\LaravelShiftRuleset;
+use Permafrost\PhpCsFixerRules\Rulesets\PhpUnitRuleset;
+use Permafrost\PhpCsFixerRules\Rulesets\SpatieRuleset;
 use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,9 +33,6 @@ class GenerateConfigCommand extends Command
     /** @var Options $options */
     protected $options;
 
-    /**
-     * {@inheritDoc}
-     */
     public function __construct(string $name = null)
     {
         $this->finderMap = new FinderMap($this->finders());
@@ -62,10 +63,10 @@ class GenerateConfigCommand extends Command
     protected function rulesets(): array
     {
         return [
-            'default',
-            'laravel_shift',
-            'php_unit',
-            'spatie',
+            DefaultRuleset::name(),
+            LaravelShiftRuleset::name(),
+            PhpUnitRuleset::name(),
+            SpatieRuleset::name(),
         ];
     }
 
@@ -76,7 +77,11 @@ class GenerateConfigCommand extends Command
      */
     protected function types(): array
     {
-        return array_keys($this->finderMap->getMap());
+        $result = array_keys($this->finderMap->getMap());
+
+        sort($result);
+
+        return $result;
     }
 
     /**

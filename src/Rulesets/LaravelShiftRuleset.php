@@ -9,7 +9,7 @@ class LaravelShiftRuleset implements RuleSet
         return true;
     }
 
-    public function name(): string
+    public static function name(): string
     {
         return 'laravel_shift';
     }

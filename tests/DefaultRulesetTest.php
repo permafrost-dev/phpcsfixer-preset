@@ -34,9 +34,9 @@ class DefaultRulesetTest extends TestCase
     {
         $ruleset = new DefaultRuleset();
 
-        $this->assertIsString($ruleset->name());
-        $this->assertNotEmpty($ruleset->name());
-        $this->assertEquals('default', strtolower($ruleset->name()));
+        $this->assertIsString($ruleset::name());
+        $this->assertNotEmpty($ruleset::name());
+        $this->assertEquals('default', strtolower($ruleset::name()));
     }
 
     /**

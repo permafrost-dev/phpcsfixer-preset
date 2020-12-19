@@ -35,9 +35,9 @@ class SpatieRulesetTest extends TestCase
     {
         $ruleset = new SpatieRuleset();
 
-        $this->assertIsString($ruleset->name());
-        $this->assertNotEmpty($ruleset->name());
-        $this->assertEquals('spatie', strtolower($ruleset->name()));
+        $this->assertIsString($ruleset::name());
+        $this->assertNotEmpty($ruleset::name());
+        $this->assertEquals('spatie', strtolower($ruleset::name()));
     }
 
     /**

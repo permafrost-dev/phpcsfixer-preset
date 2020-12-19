@@ -9,7 +9,7 @@ class DefaultRuleset implements RuleSet
         return true;
     }
 
-    public function name(): string
+    public static function name(): string
     {
         return 'default';
     }
