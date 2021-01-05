@@ -94,7 +94,7 @@ Possible values:<br>
 
 Flag: `--outfile` (or `-o`)<br>
 Required: **no**<br>
-Default: `.php_cs.dist`
+Default: `.php_cs.dist`<br>
 Possible values: any valid filename<br>
 
 <br>
