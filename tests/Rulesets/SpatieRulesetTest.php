@@ -1,6 +1,6 @@
 <?php
 
-namespace Permafrost\Tests\Unit;
+namespace Permafrost\Tests\Unit\Rulesets;
 
 use Permafrost\PhpCsFixerRules\Rulesets\RuleSet;
 use Permafrost\PhpCsFixerRules\Rulesets\SpatieRuleset;

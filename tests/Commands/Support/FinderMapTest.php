@@ -1,6 +1,6 @@
 <?php
 
-namespace Permafrost\Tests\Unit;
+namespace Permafrost\Tests\Unit\Commands\Support;
 
 use Permafrost\PhpCsFixerRules\Commands\Support\FinderMap;
 use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
