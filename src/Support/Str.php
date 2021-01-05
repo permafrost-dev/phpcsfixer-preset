@@ -8,7 +8,7 @@ class Str
      * Convert a string to snake case.
      *
      * @param string $value
-     * @param string $delimiter Default to underscore
+     * @param string|null $delimiter Defaults to underscore
      *
      * @return string
      */
@@ -40,5 +40,41 @@ class Str
         $result = ucwords(str_replace(['_', '-'], ' ', $value));
 
         return str_replace(' ', '', $result);
+    }
+
+    /**
+     * Returns true if `$value` starts with `$prefix` and `$prefix` is not an empty string.
+     *
+     * @param string $value
+     * @param string $prefix
+     *
+     * @return bool
+     */
+    public static function startsWith(string $value, string $prefix): bool
+    {
+        return $prefix !== ''
+            && strpos($value, $prefix) === 0;
+    }
+
+    /**
+     * Returns the contents of `$value` after the last instance of substring `$after`.  If `$after` is not found,
+     * the contents of `$value` are returned unchanged.
+     *
+     * @param string $value
+     * @param string $after
+     *
+     * @return string
+     */
+    public static function afterLast(string $value, string $after): string
+    {
+        $offset = strrpos($value, $after);
+
+        if ($offset === false) {
+            $offset = 0;
+        } else {
+            ++$offset;
+        }
+
+        return substr($value, $offset);
     }
 }
