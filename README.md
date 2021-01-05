@@ -26,7 +26,7 @@ The original concept for this package came from this excellent article on [shari
 
 ---
 
-## Example `.php_cs.dist` file
+## Example `.php_cs.dist` files
 
 This example uses the Laravel project finder and the Default Ruleset:
 
@@ -44,13 +44,36 @@ $finder = LaravelProjectFinder::create(__DIR__);
 return SharedConfig::create($finder, new DefaultRuleset());
 ```
 
+You can also use the standard `PhpCsFixer\Finder` class along with any of the Rulesets:
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+use PhpCsFixer\Finder;
+use Permafrost\PhpCsFixerRules\Rulesets\SpatieRuleset;
+use Permafrost\PhpCsFixerRules\SharedConfig;
+
+$finder = Finder::create()
+    ->ignoreVCS(true)
+    ->ignoreDotFiles(true)
+    ->name('*.php')
+    ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ])
+    ->exclude(__DIR__ . '/vendor');
+
+return SharedConfig::create($finder, new SpatieRuleset());
+```
+
 ---
 
 ## Quick Setup
 
 To generate a `php-cs-fixer` configuration file for your project, run:
 ```bash
-vendor/bin/pf-create-cs-config <type> [-o|--outfile=filename] [-r|--ruleset=name]
+vendor/bin/pf-create-cs-config <type> [-o|--outfile=filename] [-r|--ruleset=name] [-f|--force]
 ```
 
 <br>
@@ -60,6 +83,7 @@ Required: **yes**<br>
 Default: _no default_<br>
 Possible values:<br>
 
+- `custom`
 - `project`
 - `package`
 - `laravel` _(alias for laravel:project)_
@@ -105,9 +129,12 @@ vendor/bin/pf-create-cs-config laravel -o .php_cs -r spatie
 
 vendor/bin/pf-create-cs-config project --ruleset=laravel_shift
 
-vendor/bin/pf-create-cs-config package --outfile=.my-config
+vendor/bin/pf-create-cs-config custom --outfile=.my-config
 ```
 
+**Note on the `custom` type:**
+
+The `custom` type will prompt you to enter the directory names you'd like `php-cs-fixer` to include and exclude.  The generated configuration file implements the `PhpCsFixer\Finder` class instead of one of the preconfigured finder classes.
 
 ---
 
@@ -167,7 +194,7 @@ The default opinionated Ruleset provided by this package.
 
 Select a Finder preset or create an instance of `\PhpCsFixer\Finder` and return `SharedConfig::create($finder)` from the `.php_cs.dist` file.
 
-## Updating Rules
+## Updating Default Rules
 
 Update the `rules()` method in the `Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset` class.
 
@@ -206,7 +233,9 @@ class MyCustomRulesRuleset implements RuleSet
 }
 ```
 
-If adding a new Ruleset to this package, the Ruleset must be registered in `\Permafrost\PhpCsFixerRules\Commands\GenerateConfigCommand@rulesets()` to allow the quick setup command to use it.  
+If adding a new Ruleset to this package, the Ruleset must be registered in `\Permafrost\PhpCsFixerRules\Commands\GenerateConfigCommand@rulesets()` to allow the quick setup command to use it.
+
+If creating a new Ruleset package for your own use, follow the above example but use a namespace unique to your package.
 
 ---
 
@@ -216,7 +245,7 @@ To format all files specified in the configuration, run:
 
 `vendor/bin/php-cs-fixer fix`
 
-To see which files will be formatted without actually formatting them, run:
+To see which files will be formatted without making any changes, run:
 
 `vendor/bin/php-cs-fixer fix  --dry-run`
 
@@ -230,12 +259,10 @@ This package uses PHPUnit for unit tests.  To run the test suite, run the follow
 
 ---
 
-## Package Versioning
-
-This package follows [semantic versioning](https://github.com/semver/semver/blob/master/semver.md).
-
----
-
 ## Contributions
 
 Contributions of `Rulesets`, `Finders`, bugfixes, suggestions, or improvements are welcomed. Please open an appropriately labeled issue or pull request for any of these.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
