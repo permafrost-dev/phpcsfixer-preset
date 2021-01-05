@@ -2,7 +2,7 @@
 
 namespace Permafrost\PhpCsFixerRules\Rulesets;
 
-class DefaultRuleset implements RuleSet
+class DefaultRuleset extends BaseRuleset implements RuleSet
 {
     public function allowRisky(): bool
     {
@@ -16,7 +16,7 @@ class DefaultRuleset implements RuleSet
 
     public function rules(): array
     {
-        return [
+        return array_merge([
             'psr0' => false,
             '@PSR2' => true,
             '@Symfony' => true,
@@ -92,6 +92,6 @@ class DefaultRuleset implements RuleSet
             'encoding' => true,
             'full_opening_tag' => true,
             'yoda_style' => false,
-        ];
+        ], $this->additional);
     }
 }

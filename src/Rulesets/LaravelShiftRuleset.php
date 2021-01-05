@@ -2,7 +2,7 @@
 
 namespace Permafrost\PhpCsFixerRules\Rulesets;
 
-class LaravelShiftRuleset implements RuleSet
+class LaravelShiftRuleset extends BaseRuleset implements RuleSet
 {
     public function allowRisky(): bool
     {
@@ -21,7 +21,7 @@ class LaravelShiftRuleset implements RuleSet
      */
     public function rules(): array
     {
-        return [
+        return array_merge([
             'array_syntax' => ['syntax' => 'short'],
             'binary_operator_spaces' => [
                 'default' => 'single_space',
@@ -140,6 +140,6 @@ class LaravelShiftRuleset implements RuleSet
                 'elements' => ['method', 'property'],
             ],
             'whitespace_after_comma_in_array' => true,
-        ];
+        ], $this->additional);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Permafrost\PhpCsFixerRules\Rulesets;
 
-class PhpUnitRuleset implements RuleSet
+class PhpUnitRuleset extends BaseRuleset implements RuleSet
 {
     public function allowRisky(): bool
     {
@@ -16,7 +16,7 @@ class PhpUnitRuleset implements RuleSet
 
     public function rules(): array
     {
-        return [
+        return array_merge([
             'align_multiline_comment' => true,
             'array_indentation' => true,
             'array_syntax' => ['syntax' => 'short'],
@@ -226,6 +226,6 @@ class PhpUnitRuleset implements RuleSet
             ],
             'void_return' => true,
             'whitespace_after_comma_in_array' => true,
-        ];
+        ], $this->additional);
     }
 }

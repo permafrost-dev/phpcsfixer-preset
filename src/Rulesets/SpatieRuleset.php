@@ -2,7 +2,7 @@
 
 namespace Permafrost\PhpCsFixerRules\Rulesets;
 
-class SpatieRuleset implements RuleSet
+class SpatieRuleset extends BaseRuleset implements RuleSet
 {
     public function allowRisky(): bool
     {
@@ -21,7 +21,7 @@ class SpatieRuleset implements RuleSet
      */
     public function rules(): array
     {
-        return [
+        return array_merge([
             '@PSR2' => true,
             'array_syntax' => ['syntax' => 'short'],
             'ordered_imports' => ['sortAlgorithm' => 'alpha'],
@@ -46,6 +46,6 @@ class SpatieRuleset implements RuleSet
                 'keep_multiple_spaces_after_comma' => true,
             ],
             'single_trait_insert_per_statement' => true,
-        ];
+        ], $this->additional);
     }
 }
