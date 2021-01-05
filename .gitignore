@@ -4,3 +4,4 @@ composer.lock
 .idea/
 .vale.ini
 .php_cs.dist
+/coverage
