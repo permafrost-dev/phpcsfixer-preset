@@ -12,6 +12,8 @@ abstract class BaseRuleset implements RuleSet
     }
 
     abstract public function allowRisky(): bool;
+
     abstract public static function name(): string;
+
     abstract public function rules(): array;
 }

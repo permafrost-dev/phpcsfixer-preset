@@ -21,7 +21,6 @@ abstract class RulesetTestCase extends TestCase
         return new $class($args);
     }
 
-
     /** @test */
     public function it_implements_the_ruleset_contract(): void
     {
@@ -60,7 +59,7 @@ abstract class RulesetTestCase extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_bool_from_allowRisky_method(): void
+    public function it_returns_a_bool_from_allow_risky_method(): void
     {
         $ruleset = $this->getRuleset();
 

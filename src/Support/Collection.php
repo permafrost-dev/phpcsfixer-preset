@@ -93,7 +93,6 @@ class Collection implements \Countable, \ArrayAccess
      * @codeCoverageIgnore
      *
      * @param mixed $offset
-     *
      * @param mixed $value
      */
     public function offsetSet($offset, $value)

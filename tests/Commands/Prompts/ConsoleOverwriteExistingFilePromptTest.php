@@ -8,7 +8,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ConsoleOverwriteExistingFilePromptTest extends TestCase
 {
-
     /** @test */
     public function it_returns_true_when_confirmed_successfully()
     {
@@ -32,8 +31,10 @@ class ConsoleOverwriteExistingFilePromptTest extends TestCase
             ->withAnyParameters()
             ->willReturn(false);
 
-        $output = new class {
-            public function writeln(...$args) {}
+        $output = new class() {
+            public function writeln(...$args)
+            {
+            }
         };
 
         $prompt = new ConsoleOverwriteExistingFilePrompt(null, $output, null, $io);

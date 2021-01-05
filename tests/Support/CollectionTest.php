@@ -26,7 +26,7 @@ class CollectionTest extends TestCase
             Collection::create('a'),
         ];
 
-        foreach($collections as $collection) {
+        foreach ($collections as $collection) {
             $this->assertInstanceOf(Collection::class, $collection);
             $this->assertSame(['a'], $collection->toArray());
         }
