@@ -9,6 +9,11 @@ class FinderMap
 {
     protected $map = [];
 
+    /**
+     * Maps the provided classnames to their config type names (::configTypes() is called on each class).
+     *
+     * @param array $finderClasses
+     */
     public function __construct(array $finderClasses)
     {
         $this->mapTypesToClasses($finderClasses);
@@ -35,11 +40,31 @@ class FinderMap
 
         foreach ($finderClassnames as $finderClass) {
             foreach ($finderClass::configTypes() as $configType) {
-                $this->map[$configType] = $finderClass;
+                $this->mapType($configType, $finderClass);
             }
         }
     }
 
+    /**
+     * Maps the specified `$type` to the specified `$classname`.
+     *
+     * @see FinderMap::find()
+     *
+     * @param string $type
+     * @param string $classname
+     *
+     * @return void
+     */
+    public function mapType(string $type, string $classname): void
+    {
+        $this->map[$type] = $classname;
+    }
+
+    /**
+     * Returns the type-to-classname map array.
+     *
+     * @return array
+     */
     public function getMap(): array
     {
         return $this->map;

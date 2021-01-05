@@ -49,4 +49,27 @@ class FinderMapTest extends TestCase
 
         $this->assertEquals(BasicProjectFinder::class, $map->find('test'));
     }
+
+    /** @test */
+    public function it_maps_a_type_to_any_string_value(): void
+    {
+        $map = new FinderMap([]);
+
+        $map->mapType('one', 'ONE');
+        $map->mapType('two', 'two');
+
+        $this->assertArrayHasKey('one', $map->getMap());
+        $this->assertArrayHasKey('two', $map->getMap());
+
+        $this->assertSame('ONE', $map->getMap()['one']);
+        $this->assertSame('two', $map->getMap()['two']);
+    }
+
+    /** @test */
+    public function it_returns_an_array_when_get_map_is_called(): void
+    {
+        $map = new FinderMap([]);
+
+        $this->assertIsArray($map->getMap());
+    }
 }
