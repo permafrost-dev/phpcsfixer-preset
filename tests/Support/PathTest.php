@@ -9,6 +9,14 @@ use PHPUnit\Framework\TestCase;
 class PathTest extends TestCase
 {
     /** @test */
+    public function it_returns_an_empty_collection_for_invalid_paths(): void
+    {
+        $names = Path::getSubDirectoryNames(__DIR__ . '/invalid-dir-name');
+
+        $this->assertEmpty($names->toArray());
+    }
+
+    /** @test */
     public function it_gets_sub_directory_names(): void
     {
         $names = Path::getSubDirectoryNames(__DIR__ . '/..');

@@ -49,4 +49,12 @@ class DefaultRulesetTest extends TestCase
         $this->assertIsArray($ruleset->rules());
         $this->assertNotEmpty($ruleset->rules());
     }
+
+    /** @test */
+    public function it_returns_a_bool_from_allowRisky_method(): void
+    {
+        $ruleset = new DefaultRuleset();
+
+        $this->assertIsBool($ruleset->allowRisky());
+    }
 }

@@ -51,4 +51,12 @@ class LaravelShiftRulesetTest extends TestCase
         $this->assertNotEmpty($ruleset->rules());
         $this->assertGreaterThan(5, count($ruleset->rules()));
     }
+
+    /** @test */
+    public function it_returns_a_bool_from_allowRisky_method(): void
+    {
+        $ruleset = new LaravelShiftRuleset();
+
+        $this->assertIsBool($ruleset->allowRisky());
+    }
 }

@@ -16,6 +16,32 @@ class CollectionTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_a_collection_with_the_correct_items(): void
+    {
+        $c1 = Collection::create(['a']);
+
+        $collections = [
+            $c1,
+            Collection::create($c1),
+            Collection::create('a'),
+        ];
+
+        foreach($collections as $collection) {
+            $this->assertInstanceOf(Collection::class, $collection);
+            $this->assertSame(['a'], $collection->toArray());
+        }
+    }
+
+    /** @test */
+    public function it_returns_the_correct_count(): void
+    {
+        $c = new Collection(['a', 'b', 'c']);
+
+        $this->assertCount(3, $c->toArray());
+        $this->assertSame(3, $c->count());
+    }
+
+    /** @test */
     public function it_filters_items(): void
     {
         $c = new Collection(['a', 'b', 'c']);
@@ -77,9 +103,11 @@ class CollectionTest extends TestCase
         $collection = new Collection(['a', 'b', 'c', '1']);
         $newCollection1 = $collection->exclude(['b']);
         $newCollection2 = $collection->exclude([1], false);
+        $newCollection3 = $collection->exclude(Collection::create([1]), false);
 
         $this->assertEquals(['a', 'c', '1'], $newCollection1->toArray());
         $this->assertEquals(['a', 'b', 'c'], $newCollection2->toArray());
+        $this->assertEquals(['a', 'b', 'c'], $newCollection3->toArray());
 
         $this->assertNotEquals($collection, $newCollection1);
     }
@@ -107,5 +135,26 @@ class CollectionTest extends TestCase
         $this->assertFalse($collection->contains('aa'));
         $this->assertFalse($collection->contains(''));
         $this->assertFalse($collection->contains(null));
+    }
+
+    /** @test */
+    public function it_appends_items_and_returns_a_new_collection(): void
+    {
+        $collection1 = new Collection(['a', 'b']);
+        $collection2 = $collection1->append('c');
+
+        $this->assertNotContains('c', $collection1->toArray());
+        $this->assertContains('c', $collection2->toArray());
+        $this->assertSame(['a', 'b', 'c'], $collection2->toArray());
+    }
+
+    /** @test */
+    public function it_pushes_items_onto_the_end_of_the_collection_and_returns_a_new_collection(): void
+    {
+        $collection1 = new Collection(['a']);
+        $collection2 = $collection1->push('b', 'c');
+
+        $this->assertSame(['a'], $collection1->toArray());
+        $this->assertSame(['a', 'b', 'c'], $collection2->toArray());
     }
 }

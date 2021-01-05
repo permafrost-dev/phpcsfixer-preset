@@ -8,15 +8,20 @@ class Collection implements \Countable, \ArrayAccess
 
     public function __construct($items)
     {
+        $this->items = $this->prepareItemsForConstructor($items);
+    }
+
+    protected function prepareItemsForConstructor($items): array
+    {
         if ($items instanceof self) {
-            $items = $items->toArray();
+            return $items->toArray();
         }
 
         if (!is_array($items)) {
-            $items = [$items];
+            return [$items];
         }
 
-        $this->items = $items;
+        return $items;
     }
 
     public static function create($items): self
@@ -60,29 +65,62 @@ class Collection implements \Countable, \ArrayAccess
         // TODO: Implement valid() method.
     }*/
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param mixed $offset
+     *
+     * @return bool
+     */
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
         return $this->items[$offset];
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param mixed $offset
+     *
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value)
     {
         $this->items[$offset] = $value;
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param mixed $offset
+     */
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);
     }
 
+    /**
+     * Pushes each item in `$items` onto the end of the collection.
+     *
+     * @param mixed ...$items
+     *
+     * @return static
+     */
     public function push(...$items): self
     {
-        $items = $this->items + $items;
+        $items = array_merge($this->items, $items);
 
         return new static($items);
     }

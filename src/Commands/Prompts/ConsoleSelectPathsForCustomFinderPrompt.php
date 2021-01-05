@@ -14,6 +14,7 @@ class ConsoleSelectPathsForCustomFinderPrompt
     protected $input;
     protected $output;
     protected $command;
+    protected $io = null;
 
     /** @var bool $includeNoneOption */
     protected $includeNoneOption = true;
@@ -24,11 +25,12 @@ class ConsoleSelectPathsForCustomFinderPrompt
     /** @var int $promptType */
     protected $promptType = self::INCLUDE_PATHS_PROMPT;
 
-    public function __construct($input, $output, $command)
+    public function __construct($input, $output, $command, $io = null)
     {
         $this->input = $input;
         $this->output = $output;
         $this->command = $command;
+        $this->io = $io;
     }
 
     public function display($items, array $excludeItems = []): array
@@ -39,7 +41,7 @@ class ConsoleSelectPathsForCustomFinderPrompt
             return [];
         }
 
-        $io = new SymfonyStyle($this->input, $this->output);
+        $io = $this->io ?? new SymfonyStyle($this->input, $this->output);
 
         $result = $io->askQuestion(
             $this->getQuestion($items, $this->promptType, $excludeItems)

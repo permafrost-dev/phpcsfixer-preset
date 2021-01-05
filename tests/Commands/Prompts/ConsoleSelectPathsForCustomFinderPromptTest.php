@@ -6,6 +6,7 @@ use Permafrost\PhpCsFixerRules\Commands\Prompts\ConsoleSelectPathsForCustomFinde
 use Permafrost\PhpCsFixerRules\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ConsoleSelectPathsForCustomFinderPromptTest extends TestCase
 {
@@ -74,6 +75,44 @@ class ConsoleSelectPathsForCustomFinderPromptTest extends TestCase
         $result = $prompt
             ->withNoneOption(false)
             ->excludePaths(['aaa', 'bbb'])
+            ->withIncludePromptType()
+            ->display(['aaa', 'bbb']);
+
+        $this->assertEmpty($result);
+    }
+
+    /** @test */
+    public function it_returns_an_array_after_prompting()
+    {
+        $io = $this->createMock(SymfonyStyle::class);
+
+        $io->method('askQuestion')
+            ->withAnyParameters()
+            ->willReturn(['bbb']);
+
+        $prompt = new ConsoleSelectPathsForCustomFinderPrompt(null, null, null, $io);
+        $result = $prompt
+            ->withNoneOption(false)
+            ->excludePaths(['aaa'])
+            ->withIncludePromptType()
+            ->display(['aaa', 'bbb']);
+
+        $this->assertSame(['bbb'], $result);
+    }
+
+    /** @test */
+    public function it_returns_an_empty_array_after_prompting_returns_none_item()
+    {
+        $io = $this->createMock(SymfonyStyle::class);
+
+        $io->method('askQuestion')
+            ->withAnyParameters()
+            ->willReturn(['none']);
+
+        $prompt = new ConsoleSelectPathsForCustomFinderPrompt(null, null, null, $io);
+        $result = $prompt
+            ->withNoneOption(true)
+            ->excludePaths(['aaa'])
             ->withIncludePromptType()
             ->display(['aaa', 'bbb']);
 

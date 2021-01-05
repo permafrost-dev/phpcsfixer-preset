@@ -17,4 +17,10 @@ class BasicProjectFinderTest extends TestCase
 
         $this->assertInstanceOf(Finder::class, $finder);
     }
+
+    /** @test */
+    public function it_returns_project_as_one_of_the_config_types(): void
+    {
+        $this->assertContains('project', BasicProjectFinder::configTypes());
+    }
 }
