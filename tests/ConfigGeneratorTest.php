@@ -2,9 +2,9 @@
 
 namespace Permafrost\Tests\Unit;
 
+use Permafrost\PhpCsFixerRules\Commands\Support\ConfigGenerator;
 use Permafrost\PhpCsFixerRules\SharedConfig;
 use PHPUnit\Framework\TestCase;
-use Permafrost\PhpCsFixerRules\Commands\Support\ConfigGenerator;
 
 class ConfigGeneratorTest extends TestCase
 {
@@ -43,7 +43,6 @@ class ConfigGeneratorTest extends TestCase
 
         $this->assertStringContainsString('SharedConfig::create(', $output);
     }
-
 
     /** @test */
     public function it_requires_the_composer_autoload_file(): void
