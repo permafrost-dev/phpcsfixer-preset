@@ -33,7 +33,7 @@ This example uses the Laravel project finder and the Default Ruleset:
 ```php
 <?php
 
-require_once(__DIR__.'/vendor/autoload.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 
 use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
 use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
@@ -44,10 +44,22 @@ $finder = LaravelProjectFinder::create(__DIR__);
 return SharedConfig::create($finder, new DefaultRuleset());
 ```
 
+Standard `PhpCsFixer\Finder` options can be chained onto the custom `Finder` class to customize it to your preferences:
+
+```php
+    // ...
+    $finder = LaravelProjectFinder::create(__DIR__)
+        ->in([__DIR__ . '/custom-src-dir'])
+        ->notName('*.ignored.php')
+        ->notPath('another-custom-dir/cache/*');
+    // ...
+```
+
 You can also use the standard `PhpCsFixer\Finder` class along with any of the Rulesets:
 
 ```php
 <?php
+
 require_once(__DIR__ . '/vendor/autoload.php');
 
 use PhpCsFixer\Finder;
@@ -65,6 +77,34 @@ $finder = Finder::create()
     ->exclude(__DIR__ . '/vendor');
 
 return SharedConfig::create($finder, new SpatieRuleset());
+```
+
+---
+
+## Overriding Ruleset Rules
+
+When creating a `Ruleset` class, you may pass an array of `php-cs-fixer` rules that will add or override the ruleset's default rules.
+
+```php
+<?php
+
+require_once(__DIR__.'/vendor/autoload.php');
+
+use Permafrost\PhpCsFixerRules\Finders\LaravelProjectFinder;
+use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
+use Permafrost\PhpCsFixerRules\SharedConfig;
+
+$finder = LaravelProjectFinder::create(__DIR__);
+
+return SharedConfig::create($finder, new DefaultRuleset([
+    // existing rules can be overridden:
+    'no_break_comment' => true,
+    'no_closing_tag' => false,
+    // new rules can be added:
+    'a_new_option' => [
+        'some_sub_option' => 12,
+    ],
+]));
 ```
 
 ---
@@ -239,7 +279,7 @@ If creating a new Ruleset package for your own use, follow the above example but
 
 ---
 
-## Formatting your code with php-cs-fixer
+## Formatting Your Code
 
 To format all files specified in the configuration, run:
 
@@ -253,15 +293,23 @@ To see which files will be formatted without making any changes, run:
 
 ## Testing
 
-This package uses PHPUnit for unit tests.  To run the test suite, run the following command:
+This package uses PHPUnit for unit tests.  To run the test suite, run:
 
 `./vendor/bin/phpunit`
+
+---
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ---
 
 ## Contributions
 
 Contributions of `Rulesets`, `Finders`, bugfixes, suggestions, or improvements are welcomed. Please open an appropriately labeled issue or pull request for any of these.
+
+---
 
 ## License
 
