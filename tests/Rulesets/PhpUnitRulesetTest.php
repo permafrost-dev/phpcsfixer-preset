@@ -3,60 +3,12 @@
 namespace Permafrost\Tests\Unit\Rulesets;
 
 use Permafrost\PhpCsFixerRules\Rulesets\PhpUnitRuleset;
-use Permafrost\PhpCsFixerRules\Rulesets\RuleSet;
-use PHPUnit\Framework\TestCase;
+use Permafrost\Tests\Unit\RulesetTestCase;
 
-class PhpUnitRulesetTest extends TestCase
+class PhpUnitRulesetTest extends RulesetTestCase
 {
-    /**
-     * @test
-     */
-    public function it_implements_the_ruleset_contract(): void
+    public function getRulesetClass(): string
     {
-        $ruleset = new PhpUnitRuleset();
-
-        $this->assertInstanceOf(RuleSet::class, $ruleset);
-    }
-
-    /**
-     * @test
-     */
-    public function it_implements_only_interface_methods(): void
-    {
-        $reflect = new \ReflectionClass(new PhpUnitRuleset());
-
-        $this->assertCount(3, $reflect->getMethods(\ReflectionMethod::IS_PUBLIC));
-    }
-
-    /**
-     * @test
-     */
-    public function it_returns_a_valid_name(): void
-    {
-        $ruleset = new PhpUnitRuleset();
-
-        $this->assertIsString($ruleset::name());
-        $this->assertNotEmpty($ruleset::name());
-        $this->assertEquals('php_unit', strtolower($ruleset::name()));
-    }
-
-    /**
-     * @test
-     */
-    public function it_returns_valid_rules(): void
-    {
-        $ruleset = new PhpUnitRuleset();
-
-        $this->assertIsArray($ruleset->rules());
-        $this->assertNotEmpty($ruleset->rules());
-        $this->assertGreaterThan(5, count($ruleset->rules()));
-    }
-
-    /** @test */
-    public function it_returns_a_bool_from_allowRisky_method(): void
-    {
-        $ruleset = new PhpUnitRuleset();
-
-        $this->assertIsBool($ruleset->allowRisky());
+        return PhpUnitRuleset::class;
     }
 }
