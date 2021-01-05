@@ -2,8 +2,10 @@
 
 namespace Permafrost\PhpCsFixerRules\Commands;
 
+use Permafrost\PhpCsFixerRules\Commands\Prompts\ConsoleOverwriteExistingFilePrompt;
+use Permafrost\PhpCsFixerRules\Commands\Prompts\ConsoleSelectPathsForCustomFinderPrompt;
 use Permafrost\PhpCsFixerRules\Commands\Support\ConfigGenerator;
-use Permafrost\PhpCsFixerRules\Commands\Support\ConsoleOverwriteExistingFilePrompt;
+use Permafrost\PhpCsFixerRules\Commands\Support\CustomConfigGenerator;
 use Permafrost\PhpCsFixerRules\Commands\Support\FinderMap;
 use Permafrost\PhpCsFixerRules\Commands\Support\Options;
 use Permafrost\PhpCsFixerRules\Finders\BasicProjectFinder;
@@ -14,6 +16,7 @@ use Permafrost\PhpCsFixerRules\Rulesets\DefaultRuleset;
 use Permafrost\PhpCsFixerRules\Rulesets\LaravelShiftRuleset;
 use Permafrost\PhpCsFixerRules\Rulesets\PhpUnitRuleset;
 use Permafrost\PhpCsFixerRules\Rulesets\SpatieRuleset;
+use Permafrost\PhpCsFixerRules\Support\Path;
 use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,6 +39,7 @@ class GenerateConfigCommand extends Command
     public function __construct(string $name = null)
     {
         $this->finderMap = new FinderMap($this->finders());
+        $this->finderMap->mapType('custom', \PhpCsFixer\Finder::class);
 
         parent::__construct($name);
     }
@@ -134,7 +138,6 @@ class GenerateConfigCommand extends Command
     {
         $type = $this->options->typeName();
         $ruleset = Str::studly($this->options->rulesetName()) . 'Ruleset';
-
         $code = $generator->generate($this->finderMap->find($type), $ruleset);
 
         if (file_put_contents($this->getOutputFilename(), $code) === false) {
@@ -177,13 +180,74 @@ class GenerateConfigCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * Returns a configured `CustomConfigGenerator` instance.  Configuration is determined by prompting the user for
+     * the directories to include and exclude.
+     *
+     * @return CustomConfigGenerator
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function createCustomConfigGenerator(): CustomConfigGenerator
+    {
+        $generator = new CustomConfigGenerator();
+        $prompt = new ConsoleSelectPathsForCustomFinderPrompt($this->input, $this->output, $this);
+        $dirNames = Path::getSubDirectoryNames(getcwd());
+        $include = $prompt->withIncludePromptType()->display($dirNames);
+        $exclude = $prompt->withExcludePromptType()->display($dirNames, $include);
+
+        $generator->setPaths($include, $exclude);
+
+        return $generator;
+    }
+
+    /**
+     * Returns a default (non-custom) config generator instance.
+     *
+     * @return ConfigGenerator
+     */
+    protected function createDefaultConfigGenerator(): ConfigGenerator
+    {
+        return new ConfigGenerator();
+    }
+
+    /**
+     * Generates and saves the code using the correct generator based on the config type.
+     * Uses CustomConfigGenerator if the type is 'custom', otherwise uses ConfigGenerator.
+     *
+     * @see GenerateConfigCommand::createDefaultConfigGenerator()
+     * @see GenerateConfigCommand::createCustomConfigGenerator()
+     *
+     * @return bool
+     */
+    protected function runCodeGenerator(): bool
+    {
+        if ($this->options->typeName() === 'custom') {
+            $generator = $this->createCustomConfigGenerator();
+        } else {
+            $generator = $this->createDefaultConfigGenerator();
+        }
+
+        return $this->generateAndSaveCode($generator);
+    }
+
+    /**
+     * Initializes instance properties.
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
+    protected function executeInit(InputInterface $input, OutputInterface $output): void
     {
         $this->output = $output;
         $this->input = $input;
         $this->options = new Options($input);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->executeInit($input, $output);
+
         $filename = $this->options->filename();
 
         if (!$this->validUserInput()) {
@@ -194,7 +258,7 @@ class GenerateConfigCommand extends Command
             return Command::FAILURE;
         }
 
-        if (!$this->generateAndSaveCode(new ConfigGenerator())) {
+        if (!$this->runCodeGenerator()) {
             return Command::FAILURE;
         }
 
