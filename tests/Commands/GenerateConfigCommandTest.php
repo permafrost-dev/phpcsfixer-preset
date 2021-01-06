@@ -11,7 +11,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class GenerateConfigCommandTest extends TestCase
@@ -27,7 +26,7 @@ class GenerateConfigCommandTest extends TestCase
     {
         $failures = [];
 
-        foreach($this->tempFileCache as $filename) {
+        foreach ($this->tempFileCache as $filename) {
             if (file_exists($filename) && is_file($filename)) {
                 //echo "unlinking " . basename($filename) . "\n";
                 if (!unlink($filename)) {
@@ -53,7 +52,7 @@ class GenerateConfigCommandTest extends TestCase
 
         $counter = 0;
         while (file_exists($targetFile) && $counter < 100) {
-            $counter++;
+            ++$counter;
             $targetFile = $this->getRandomConfigFilename();
         }
 
@@ -83,9 +82,9 @@ class GenerateConfigCommandTest extends TestCase
         return (new Application())
             ->add($command)
             ->addArgument('type', InputArgument::OPTIONAL, 'The type of finder to use.', 'laravel')
-            ->addOption('ruleset', 'r', InputOption::VALUE_REQUIRED,  'The ruleset to use', 'default')
-            ->addOption('outfile', 'o', InputOption::VALUE_REQUIRED,  'The filename to write to', '.php_cs.dist')
-            ->addOption('force', 'f', InputOption::VALUE_NONE,  'Overwrite existing file');
+            ->addOption('ruleset', 'r', InputOption::VALUE_REQUIRED, 'The ruleset to use', 'default')
+            ->addOption('outfile', 'o', InputOption::VALUE_REQUIRED, 'The filename to write to', '.php_cs.dist')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Overwrite existing file');
     }
 
     /** @test */
@@ -125,7 +124,7 @@ class GenerateConfigCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_generates_a_config_file_that_creates_Ruleset_and_SharedConfig_instances(): void
+    public function it_generates_a_config_file_that_creates__ruleset_and__shared_config_instances(): void
     {
         $filename = $this->generateTempFilename();
         $tester = $this->getCommandTester();

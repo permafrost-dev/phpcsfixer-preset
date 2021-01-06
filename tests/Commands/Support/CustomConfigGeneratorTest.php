@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class CustomConfigGeneratorTest extends TestCase
 {
-
     /** @test */
     public function it_sets_paths_correctly(): void
     {
@@ -78,8 +77,8 @@ class CustomConfigGeneratorTest extends TestCase
         $generator = new CustomConfigGenerator(['aaa'], ['bbb']);
         $code = $generator->generateFinderCode();
 
-        $this->assertStringContainsString("->ignoreVCS(true)", $code);
-        $this->assertStringContainsString("->ignoreDotFiles(true)", $code);
+        $this->assertStringContainsString('->ignoreVCS(true)', $code);
+        $this->assertStringContainsString('->ignoreDotFiles(true)', $code);
     }
 
     /** @test */
@@ -88,6 +87,6 @@ class CustomConfigGeneratorTest extends TestCase
         $generator = new CustomConfigGenerator(['aaa'], ['bbb']);
         $code = $generator->generateFinderCode();
 
-        $this->assertStringContainsString("Finder::create()", $code);
+        $this->assertStringContainsString('Finder::create()', $code);
     }
 }
