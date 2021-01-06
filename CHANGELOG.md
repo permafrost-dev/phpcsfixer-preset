@@ -3,6 +3,14 @@
 All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in this file _(as of 2021-Jan-05)_.
 
 ---
+## 1.5.3 - 2021-Jan-06
+
+- Minor formatting fixes, updated changelog.
+
+## 1.5.2 - 2021-Jan-06
+
+- Add additional unit tests for custom config generator and generate config command, bringing code coverage to >90%.
+
 ## 1.5.0 - 2021-Jan-05
 
 - Changed `Ruleset` classes to accept an optional array parameter that overrides/adds ruleset configuration options.
