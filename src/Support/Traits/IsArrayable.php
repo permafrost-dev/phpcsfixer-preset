@@ -53,5 +53,4 @@ trait IsArrayable
     {
         unset($this->items[$offset]);
     }
-
 }

@@ -95,6 +95,6 @@ class ConsoleSelectPathsForCustomFinderPrompt
     {
         $prepared = $this->prepareItems($items, $exclude);
 
-        return ($prepared !== ['none'] && !empty($prepared));
+        return $prepared !== ['none'] && !empty($prepared);
     }
 }

@@ -95,5 +95,4 @@ class CollectionTest extends TestCase
         $this->assertEquals('a|b|c', $collection->implode('|'));
         $this->assertEquals('abc', $collection->implode(''));
     }
-
 }
