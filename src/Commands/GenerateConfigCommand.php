@@ -188,10 +188,10 @@ class GenerateConfigCommand extends Command
     protected function createCustomConfigGenerator(): CustomConfigGenerator
     {
         $generator = new CustomConfigGenerator();
-        $prompt = new ConsoleSelectPathsForCustomFinderPrompt($this->input, $this->output, $this);
+        $prompt = new ConsoleSelectPathsForCustomFinderPrompt($this->input, $this->output);
         $dirNames = Path::getSubDirectoryNames(getcwd());
-        $include = $prompt->withIncludePromptType()->display($dirNames);
-        $exclude = $prompt->withExcludePromptType()->display($dirNames, $include);
+        $include = $prompt->withPromptType(1)->withNoneOption(false)->display($dirNames);
+        $exclude = $prompt->withPromptType(2)->withNoneOption(true)->display($dirNames, $include);
 
         $generator->setPaths($include, $exclude);
 
