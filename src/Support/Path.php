@@ -4,8 +4,6 @@ namespace Permafrost\PhpCsFixerRules\Support;
 
 class Path
 {
-    //'.', '..', '.git', '.github', '.idea', '.vscode', 'node_modules', 'vendor',
-
     public static function getSubDirectoryNames(string $path, array $excludeNames = []): Collection
     {
         if (!file_exists($path) || !is_dir($path)) {
@@ -13,10 +11,6 @@ class Path
         }
 
         $files = scandir($path);
-
-        if (!$files) {
-            $files = [];
-        }
 
         return Collection::create($files)
             ->exclude(['.', '..'])
