@@ -3,6 +3,7 @@
 namespace Permafrost\PhpCsFixerRules\Commands\Prompts;
 
 use Permafrost\PhpCsFixerRules\Support\Collection;
+use Permafrost\PhpCsFixerRules\Support\Str;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -13,29 +14,24 @@ class ConsoleSelectPathsForCustomFinderPrompt
 
     protected $input;
     protected $output;
-    protected $command;
     protected $io = null;
 
     /** @var bool $includeNoneOption */
     protected $includeNoneOption = true;
 
-    /** @var array $excludedPaths */
-    protected $excludedPaths = [];
-
     /** @var int $promptType */
     protected $promptType = self::INCLUDE_PATHS_PROMPT;
 
-    public function __construct($input, $output, $command, $io = null)
+    public function __construct($input, $output, $io = null)
     {
         $this->input = $input;
         $this->output = $output;
-        $this->command = $command;
         $this->io = $io;
     }
 
     public function display($items, array $excludeItems = []): array
     {
-        $excludeItems = array_merge(['.idea', '.vscode', 'node_modules', 'vendor'], $this->excludedPaths, $excludeItems);
+        $excludeItems = array_merge(['node_modules', 'vendor'], $excludeItems);
 
         if (!$this->hasPreparedItems($items, $excludeItems)) {
             return [];
@@ -44,14 +40,10 @@ class ConsoleSelectPathsForCustomFinderPrompt
         $io = $this->io ?? new SymfonyStyle($this->input, $this->output);
 
         $result = $io->askQuestion(
-            $this->getQuestion($items, $this->promptType, $excludeItems)
+            $this->getQuestion($items, $excludeItems)
         );
 
-        if ($result === ['none']) {
-            $result = [];
-        }
-
-        return $result;
+        return $result[0] !== 'none' ? $result : [];
     }
 
     public function withNoneOption(bool $value = true): self
@@ -61,75 +53,43 @@ class ConsoleSelectPathsForCustomFinderPrompt
         return $this;
     }
 
-    public function excludePaths(array $paths): self
+    public function withPromptType(int $type): self
     {
-        $this->excludedPaths = $paths;
+        $this->promptType = $type;
 
         return $this;
     }
 
-    public function withIncludePromptType(): self
+    public function getQuestion($items, array $excludeItems = []): ChoiceQuestion
     {
-        $this->promptType = self::INCLUDE_PATHS_PROMPT;
+        $action = $this->promptType === self::EXCLUDE_PATHS_PROMPT
+            ? 'IGNORE'
+            : 'SEARCH';
 
-        return $this;
-    }
-
-    public function withExcludePromptType(): self
-    {
-        $this->promptType = self::EXCLUDE_PATHS_PROMPT;
-
-        return $this;
-    }
-
-    public function getQuestion($items, int $type, array $excludeItems = []): ChoiceQuestion
-    {
-        return (new ChoiceQuestion(
-            $this->getPromptText($type),
+        $question = new ChoiceQuestion(
+            "Please enter a comma-separated list of the directories php-cs-fixer should <fg=yellow;bg=default;options=bold>$action</>",
             $this->prepareItems($items, $excludeItems)
-        ))->setMultiselect(true);
-    }
-
-    public function getPromptText(int $type): string
-    {
-        $prompts = [
-            self::INCLUDE_PATHS_PROMPT => '%s <%s>SEARCH</>',
-            self::EXCLUDE_PATHS_PROMPT => '%s <%s>IGNORE</>',
-        ];
-
-        return sprintf(
-            $prompts[$type] ?? $prompts[self::INCLUDE_PATHS_PROMPT],
-            'Please enter a comma-separated list of the directories php-cs-fixer should',
-            'fg=yellow;bg=default;options=bold'
         );
+
+        return $question->setMultiselect(true);
     }
 
-    public function prepareItems($items, array $excludeItems): array
+    public function prepareItems(array $items, array $excludeItems): array
     {
-        if ($items instanceof Collection) {
-            $items = $items->toArray();
-        }
-
-        if (!is_array($items)) {
-            $items = [$items];
-        }
-
         if ($this->includeNoneOption) {
             array_unshift($items, 'none');
         }
 
         return Collection::create($items)
-            ->exclude(['.git', '.github'])
             ->exclude($excludeItems)
-            ->exclude($this->excludedPaths)
-            ->reject(function ($item) {
-                return ($item[0] ?? '') === '.';
+            ->filter(function ($item) {
+                return !Str::startsWith($item, '.');
             })
             ->toArray();
     }
 
-    public function hasPreparedItems($items, array $excludeItems): bool
+    public function hasPreparedItems(array $items, array $exclude): bool
     {
-        return count($this->prepareItems($items, $excludeItems)) > 0;
+        return count($this->prepareItems($items, $exclude)) > 0;
     }
 }
