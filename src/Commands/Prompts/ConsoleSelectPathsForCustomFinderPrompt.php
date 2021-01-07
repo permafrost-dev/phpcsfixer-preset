@@ -33,7 +33,7 @@ class ConsoleSelectPathsForCustomFinderPrompt
     {
         $excludeItems = array_merge(['node_modules', 'vendor'], $excludeItems);
 
-        if (!$this->hasPreparedItems($items, $excludeItems)) {
+        if (!$this->hasPreparedItems(is_array($items) ? $items : $items->toArray(), $excludeItems)) {
             return [];
         }
 
@@ -66,6 +66,8 @@ class ConsoleSelectPathsForCustomFinderPrompt
             ? 'IGNORE'
             : 'SEARCH';
 
+        $items = is_array($items) ? $items : $items->toArray();
+
         $question = new ChoiceQuestion(
             "Please enter a comma-separated list of the directories php-cs-fixer should <fg=yellow;bg=default;options=bold>$action</>",
             $this->prepareItems($items, $excludeItems)
@@ -85,11 +87,14 @@ class ConsoleSelectPathsForCustomFinderPrompt
             ->filter(function ($item) {
                 return !Str::startsWith($item, '.');
             })
+            ->values()
             ->toArray();
     }
 
     public function hasPreparedItems(array $items, array $exclude): bool
     {
-        return count($this->prepareItems($items, $exclude)) > 0;
+        $prepared = $this->prepareItems($items, $exclude);
+
+        return ($prepared !== ['none'] && !empty($prepared));
     }
 }
