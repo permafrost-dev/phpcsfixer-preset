@@ -3,6 +3,11 @@
 All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in this file _(as of 2021-Jan-05)_.
 
 ---
+## 1.5.4 - 2021-Jan-06
+
+- Reduce complexity and remove unnecessary code and tests in a number of places.
+- Minor updates & fixes to the README.
+
 ## 1.5.3 - 2021-Jan-06
 
 - Minor formatting fixes, updated changelog.

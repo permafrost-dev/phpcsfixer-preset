@@ -12,7 +12,7 @@
 
 ---
 
-This package allows you to use the same `php-cs-fixer` formatting rules across all of your projects without copy-and-pasting configuration files. There's also a quick setup script to automatically generate a configuration file for your project structure and preferred formatting preset.
+This package allows you to use the same [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) formatting rules across all of your projects without copy-and-pasting configuration files. There's also a quick setup script to automatically generate a configuration file for your project structure and preferred formatting preset.
 
 `permafrost-dev/phpcsfixer-preset` provides several opinionated `php-cs-fixer` configuration choices as well as pre-configured `Finder` classes for common project formats and use cases.
 
@@ -265,10 +265,10 @@ class MyCustomRulesRuleset implements RuleSet
      */
     public function rules(): array
     {
-        return [
-            '@PSR2' => true, //for example
-            //add additional php-cs-fixer rules here as needed
-        ];
+        return array_merge([
+            '@PSR2' => true,
+            // additional php-cs-fixer rules
+        ], $this->additional); //it's important that the additional rules property is merged
     }
 }
 ```
