@@ -95,4 +95,12 @@ class CollectionTest extends TestCase
         $this->assertEquals('a|b|c', $collection->implode('|'));
         $this->assertEquals('abc', $collection->implode(''));
     }
+
+    /** @test */
+    public function it_pushes_items_onto_the_array(): void
+    {
+        $collection = new Collection(['a', 'b']);
+
+        $this->assertEquals(['a','b','c'], $collection->push('c')->toArray());
+    }
 }
