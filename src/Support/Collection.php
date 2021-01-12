@@ -25,6 +25,15 @@ class Collection implements \Countable, \ArrayAccess
         return $this->items;
     }
 
+    public function push(...$items): self
+    {
+        foreach($items as $item) {
+            $this->items[] = $item;
+        }
+
+        return $this;
+    }
+
     public function exclude(array $items): self
     {
         return $this->filter(function ($value) use ($items) {
