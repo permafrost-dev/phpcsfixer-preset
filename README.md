@@ -117,12 +117,15 @@ To generate a `php-cs-fixer` configuration file for your project, run:
 vendor/bin/pf-create-cs-config <type> [-o|--outfile=filename] [-r|--ruleset=name] [-f|--force]
 ```
 
-<br>
 
-Parameter: `<type>`<br>
-Required: **yes**<br>
-Default: _no default_<br>
-Possible values:<br>
+
+Parameter: `<type>`
+
+Required: **yes**
+
+Default: _no default_
+
+Possible values:
 
 - `custom`
 - `project`
@@ -130,32 +133,42 @@ Possible values:<br>
 - `laravel` _(alias for laravel:project)_
 - `laravel:project`
 - `laravel:package`
+  
+  
 
-<br>
+Flag: `--outfile` (or `-o`)
 
-Flag: `--outfile` (or `-o`)<br>
-Required: **no**<br>
-Default: `.php_cs.dist`<br>
-Possible values: any valid filename<br>
+Required: **no**
 
-<br>
+Default: `.php_cs.dist`
+
+Possible values: any valid filename
+
+
 
 Flag: `--ruleset` (or `-r`)<br>
+
 Required: **no**<br>
+
 Default: `default`<br>
+
 Possible values:<br>
 
 - `default`
 - `laravel_shift`
 - `php_unit`
 - `spatie`
-
-<br>
+  
+  
 
 Flag: `--force` (or `-f`)<br>
+
 Required: **no**<br>
+
 Default: `false`<br>
+
 Possible values: none<br>
+
 Effect: overwrites any existing configuration file<br>
 
 Examples:
@@ -210,21 +223,28 @@ The `custom` type will prompt you to enter the directory names you'd like `php-c
 
 ## Rulesets
 
+_You may click on the name of each ruleset to see the specific rules it implements._
+
 #### `DefaultRuleset`
 
-The default opinionated Ruleset provided by this package.
+- The default opinionated Ruleset provided by this package.
+
+- [View Rules](docs/rulesets/default_rules.md)
 
 #### `LaravelShiftRuleset`
 
 - Ruleset used by [Laravel Shift](https://laravelshift.com).
+- [View Rules](docs/rulesets/laravel_shift_rules.md)
 
 #### `PhpUnitRuleset`
 
 - Ruleset used by [PHPUnit](https://github.com/sebastianbergmann/phpunit).
+- [View Rules](docs/rulesets/php_unit_rules.md)
 
 #### `SpatieRuleset`
 
 - Ruleset used by [Spatie](https://github.com/spatie).
+- [View Rules](docs/rulesets/spatie_rules.md)
 
 <br>
 
