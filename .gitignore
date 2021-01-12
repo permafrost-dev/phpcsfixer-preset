@@ -5,3 +5,4 @@ composer.lock
 .vale.ini
 .php_cs.dist
 /coverage
+/scripts
