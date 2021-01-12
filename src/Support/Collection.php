@@ -27,7 +27,7 @@ class Collection implements \Countable, \ArrayAccess
 
     public function push(...$items): self
     {
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $this->items[] = $item;
         }
 
