@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/packagist/v/permafrost-dev/phpcsfixer-preset" alt="version"/> <img src="https://img.shields.io/packagist/l/permafrost-dev/phpcsfixer-preset" alt="license"/> <img src="https://img.shields.io/packagist/dt/permafrost-dev/phpcsfixer-preset" alt="downloads"/> <img src="https://img.shields.io/github/workflow/status/permafrost-dev/phpcsfixer-preset/Run%20Tests/main" alt="Run Tests"/>
+<img src="https://img.shields.io/packagist/v/permafrost-dev/phpcsfixer-preset" alt="version"/> <img src="https://img.shields.io/packagist/l/permafrost-dev/phpcsfixer-preset" alt="license"/> <img src="https://img.shields.io/packagist/dt/permafrost-dev/phpcsfixer-preset" alt="downloads"/> <img src="https://img.shields.io/github/workflow/status/permafrost-dev/phpcsfixer-preset/Run%20Tests/main" alt="Run Tests"/> <img src="https://coveralls.io/repos/github/permafrost-dev/phpcsfixer-preset/badge.svg?branch=main" alt="Coverage Status" />
 </p>
 
 <br>
@@ -112,6 +112,7 @@ return SharedConfig::create($finder, new DefaultRuleset([
 ## Quick Setup
 
 To generate a `php-cs-fixer` configuration file for your project, run:
+
 ```bash
 vendor/bin/pf-create-cs-config <type> [-o|--outfile=filename] [-r|--ruleset=name] [-f|--force]
 ```
@@ -156,7 +157,6 @@ Required: **no**<br>
 Default: `false`<br>
 Possible values: none<br>
 Effect: overwrites any existing configuration file<br>
-
 
 Examples:
 
@@ -243,6 +243,7 @@ Update the `rules()` method in the `Permafrost\PhpCsFixerRules\Rulesets\DefaultR
 Create a class that implements the `Permafrost\PhpCsFixerRules\Rulesets\Ruleset` interface, returning your rules from the `rules()` method.
 
 Sample Ruleset:
+
 ```php
 <?php
 
