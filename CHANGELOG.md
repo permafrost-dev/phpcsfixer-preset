@@ -3,6 +3,15 @@
 All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in this file _(as of 2021-Jan-05)_.
 
 ---
+
+#
+
+## ## 1.5.5 - 2021-Jan-12
+
+- Begin documentation overhaul.
+- add `push()` helper method to the `Collection` class.
+- add coveralls.io workflow and badge to README.
+
 ## 1.5.4 - 2021-Jan-06
 
 - Reduce complexity and remove unnecessary code and tests in a number of places.
@@ -31,4 +40,3 @@ All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in 
 ## 1.4.0 - 2021-Jan-05
 
 - Added 'custom' type to the configuration generator script. Specifying this type will cause the user to be prompted for the directories `php-cs-fixer` should include and exclude, and the generated configuation file uses the standard `PhpCsFixer\Finder` class instead of a custom Finder preset.
-
