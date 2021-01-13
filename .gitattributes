@@ -8,3 +8,4 @@
 /phpunit.xml   			export-ignore
 /.editorconfig      	export-ignore
 /.php.cs.dist.example 	export-ignore
+/docs                   export-ignore
