@@ -4,11 +4,16 @@ composer.lock
 .idea/
 .vale.ini
 .php_cs.dist
+.php_cs.ga.dist
 /coverage
 /scripts
-/docs/*
-!/docs/automation.md
-!/docs/finders.md
-!/docs/rulesets/*.md
-.php_cs.ga.dist
+
+# vuepress docs files
+/docs/.npmignore
+/docs/node_modules
+/docs/package.json
+/docs/package-lock.json
+/docs/yarn.lock
+/docs/src
+/docs/.gitignore
 
