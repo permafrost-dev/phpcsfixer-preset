@@ -43,6 +43,9 @@ class DefaultRuleset extends BaseRuleset implements RuleSet
             'function_declaration' => [
                 'closure_function_spacing' => 'none',
             ],
+            'increment_style' => [
+                'style' => 'post'
+            ],
             'indentation_type' => true,
             'linebreak_after_opening_tag' => true,
             'line_ending' => true,
