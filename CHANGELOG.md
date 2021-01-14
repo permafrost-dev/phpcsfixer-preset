@@ -4,9 +4,11 @@ All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in 
 
 ---
 
-#
+## 1.5.6 - 2021-Jan-14
 
-## ## 1.5.5 - 2021-Jan-12
+- add `increment_style.style = post` to the Default Ruleset.
+
+## 1.5.5 - 2021-Jan-12
 
 - Begin documentation overhaul.
 - add `push()` helper method to the `Collection` class.
