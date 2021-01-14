@@ -117,8 +117,6 @@ To generate a `php-cs-fixer` configuration file for your project, run:
 vendor/bin/pf-create-cs-config <type> [-o|--outfile=filename] [-r|--ruleset=name] [-f|--force]
 ```
 
-
-
 Parameter: `<type>`
 
 Required: **yes**
@@ -133,8 +131,6 @@ Possible values:
 - `laravel` _(alias for laravel:project)_
 - `laravel:project`
 - `laravel:package`
-  
-  
 
 Flag: `--outfile` (or `-o`)
 
@@ -143,8 +139,6 @@ Required: **no**
 Default: `.php_cs.dist`
 
 Possible values: any valid filename
-
-
 
 Flag: `--ruleset` (or `-r`)<br>
 
@@ -158,8 +152,6 @@ Possible values:<br>
 - `laravel_shift`
 - `php_unit`
 - `spatie`
-  
-  
 
 Flag: `--force` (or `-f`)<br>
 
@@ -191,7 +183,7 @@ The `custom` type will prompt you to enter the directory names you'd like `php-c
 
 ---
 
-## Finder Presets
+## [Finder Presets](docs/finders.md)
 
 #### `BasicProjectFinder`
 
@@ -221,27 +213,25 @@ The `custom` type will prompt you to enter the directory names you'd like `php-c
 
 ---
 
-## Rulesets
+## [Rulesets](docs/rulesets/index.md)
 
-_You may click on the name of each ruleset to see the specific rules it implements._
-
-#### `DefaultRuleset`
+#### `Default`
 
 - The default opinionated Ruleset provided by this package.
 
 - [View Rules](docs/rulesets/default_rules.md)
 
-#### `LaravelShiftRuleset`
+#### `LaravelShift`
 
 - Ruleset used by [Laravel Shift](https://laravelshift.com).
 - [View Rules](docs/rulesets/laravel_shift_rules.md)
 
-#### `PhpUnitRuleset`
+#### `PhpUnit`
 
 - Ruleset used by [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 - [View Rules](docs/rulesets/php_unit_rules.md)
 
-#### `SpatieRuleset`
+#### `Spatie`
 
 - Ruleset used by [Spatie](https://github.com/spatie).
 - [View Rules](docs/rulesets/spatie_rules.md)
