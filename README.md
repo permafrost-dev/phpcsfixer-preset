@@ -183,6 +183,12 @@ The `custom` type will prompt you to enter the directory names you'd like `php-c
 
 ---
 
+## Automatic Formatting
+
+If you would like to automatically apply `php-cs-fixer` formatting using Github Actions, see the [automation with Github Actions](docs/automation.md) documentation.
+
+---
+
 ## [Finder Presets](docs/finders.md)
 
 #### `BasicProjectFinder`

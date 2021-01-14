@@ -6,5 +6,9 @@ composer.lock
 .php_cs.dist
 /coverage
 /scripts
-/docs
+/docs/*
+!/docs/automation.md
+!/docs/finders.md
+!/docs/rulesets/*.md
 .php_cs.ga.dist
+
