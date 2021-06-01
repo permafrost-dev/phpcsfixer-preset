@@ -35,7 +35,7 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'braces' => true,
             'cast_spaces' => true,
             'class_attributes_separation' => [
-                'elements' => ['method'],
+                'elements' => ['method' => 'one'],
             ],
             'class_definition' => true,
             'concat_space' => [
@@ -102,7 +102,7 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'normalize_index_brace' => true,
             'not_operator_with_successor_space' => true,
             'object_operator_without_whitespace' => true,
-            'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+            'ordered_imports' => ['sort_algorithm' => 'alpha'],
             'phpdoc_indent' => true,
             //'phpdoc_inline_tag' => true,
             'phpdoc_no_access' => true,
@@ -115,7 +115,6 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'phpdoc_trim' => true,
             'phpdoc_types' => true,
             'phpdoc_var_without_name' => true,
-            'psr4' => true,
             'self_accessor' => true,
             'short_scalar_cast' => true,
             'simplified_null_return' => false, // disabled by Shift

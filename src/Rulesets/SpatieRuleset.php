@@ -24,7 +24,7 @@ class SpatieRuleset extends BaseRuleset implements RuleSet
         return array_merge([
             '@PSR2' => true,
             'array_syntax' => ['syntax' => 'short'],
-            'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+            'ordered_imports' => ['sort_algorithm' => 'alpha'],
             'no_unused_imports' => true,
             'not_operator_with_successor_space' => true,
             'trailing_comma_in_multiline' => [
@@ -39,9 +39,7 @@ class SpatieRuleset extends BaseRuleset implements RuleSet
             'phpdoc_single_line_var_spacing' => true,
             'phpdoc_var_without_name' => true,
             'class_attributes_separation' => [
-                'elements' => [
-                    'method',
-                ],
+                'elements' => ['method' => 'one'],
             ],
             'method_argument_space' => [
                 'on_multiline' => 'ensure_fully_multiline',
