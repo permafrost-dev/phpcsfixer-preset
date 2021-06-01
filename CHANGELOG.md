@@ -4,6 +4,11 @@ All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in 
 
 ---
 
+## 2.0.0 2021-06-01
+
+- add support for php-cs-fixer v3
+- drop support for php-cs-fixer v2
+
 ## 1.5.6 - 2021-Jan-14
 
 - add `increment_style.style = post` to the Default Ruleset.
