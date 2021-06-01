@@ -170,7 +170,7 @@ vendor/bin/pf-create-cs-config laravel:package
 
 vendor/bin/pf-create-cs-config package -f
 
-vendor/bin/pf-create-cs-config laravel -o .php_cs -r spatie
+vendor/bin/pf-create-cs-config laravel -o .php-cs-fixer.php -r spatie
 
 vendor/bin/pf-create-cs-config project --ruleset=laravel_shift
 
