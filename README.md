@@ -26,7 +26,7 @@ The original concept for this package came from this excellent article on [shari
 
 ---
 
-## Example `.php_cs.dist` files
+## Example `.php-cs-fixer.dist.php` files
 
 This example uses the Laravel project finder and the Default Ruleset:
 
@@ -136,7 +136,7 @@ Flag: `--outfile` (or `-o`)
 
 Required: **no**
 
-Default: `.php_cs.dist`
+Default: `.php-cs-fixer.dist.php`
 
 Possible values: any valid filename
 
@@ -248,7 +248,7 @@ If you would like to automatically apply `php-cs-fixer` formatting using Github 
 
 ## Usage
 
-Select a Finder preset or create an instance of `\PhpCsFixer\Finder` and return `SharedConfig::create($finder)` from the `.php_cs.dist` file.
+Select a Finder preset or create an instance of `\PhpCsFixer\Finder` and return `SharedConfig::create($finder)` from the `.php-cs-fixer.dist.php` file.
 
 ## Updating Default Rules
 
