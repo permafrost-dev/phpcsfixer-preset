@@ -36,7 +36,7 @@ class Collection implements \Countable, \ArrayAccess
 
     public function exclude(array $items): self
     {
-        return $this->filter(function ($value) use ($items) {
+        return $this->filter(function($value) use ($items) {
             return !in_array($value, $items);
         })->values();
     }

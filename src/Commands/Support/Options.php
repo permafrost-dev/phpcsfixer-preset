@@ -17,7 +17,7 @@ class Options
         $this->initialize();
     }
 
-    protected function initialize(string $defaultFilename = '.php_cs.dist'): void
+    protected function initialize(string $defaultFilename = '.php-cs-fixer.dist.php'): void
     {
         $this->filename = $this->input->hasOption('outfile')
             ? $this->input->getOption('outfile')

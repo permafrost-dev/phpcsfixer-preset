@@ -41,6 +41,7 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'concat_space' => [
                 'spacing' => 'none',
             ],
+            'constant_case' => ['case' => 'lower'],
             'declare_equal_normalize' => true,
             'elseif' => true,
             'encoding' => true,
@@ -55,7 +56,6 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'linebreak_after_opening_tag' => true,
             'line_ending' => true,
             'lowercase_cast' => true,
-            'lowercase_constants' => true,
             'lowercase_keywords' => true,
             'lowercase_static_reference' => true, // added from Symfony
             'magic_method_casing' => true, // added from Symfony
@@ -104,7 +104,7 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'object_operator_without_whitespace' => true,
             'ordered_imports' => ['sortAlgorithm' => 'alpha'],
             'phpdoc_indent' => true,
-            'phpdoc_inline_tag' => true,
+            //'phpdoc_inline_tag' => true,
             'phpdoc_no_access' => true,
             'phpdoc_no_package' => true,
             'phpdoc_no_useless_inheritdoc' => true,
@@ -133,7 +133,9 @@ class LaravelShiftRuleset extends BaseRuleset implements RuleSet
             'switch_case_semicolon_to_colon' => true,
             'switch_case_space' => true,
             'ternary_operator_spaces' => true,
-            'trailing_comma_in_multiline_array' => true,
+            'trailing_comma_in_multiline' => [
+                'elements' => ['arrays'],
+            ],
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
             'visibility_required' => [

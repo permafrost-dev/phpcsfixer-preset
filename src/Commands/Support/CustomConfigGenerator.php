@@ -26,13 +26,13 @@ class CustomConfigGenerator extends ConfigGenerator
     public function generateFinderCode(): string
     {
         $includeCode = trim(Collection::create($this->includePaths)
-            ->map(function ($item) {
+            ->map(function($item) {
                 return "        __DIR__ . '/$item',";
             })
             ->implode(PHP_EOL));
 
         $excludeCode = Collection::create($this->excludePaths)
-            ->map(function ($item) {
+            ->map(function($item) {
                 return "    ->notPath('$item/*')";
             })
             ->implode(PHP_EOL);

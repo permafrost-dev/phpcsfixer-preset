@@ -116,7 +116,7 @@ class PhpUnitRuleset extends BaseRuleset implements RuleSet
             'no_null_property_initialization' => true,
             'no_php4_constructor' => true,
             'no_short_bool_cast' => true,
-            'no_short_echo_tag' => true,
+            'echo_tag_syntax' => ['format' => 'long'],
             'no_singleline_whitespace_before_semicolons' => true,
             'no_spaces_after_function_name' => true,
             'no_spaces_around_offset' => true,

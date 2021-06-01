@@ -15,7 +15,7 @@ class Path
         return Collection::create($files)
             ->exclude(['.', '..'])
             ->exclude($excludeNames)
-            ->filter(function ($item) {
+            ->filter(function($item) {
                 return is_dir($item);
             })
             ->values();

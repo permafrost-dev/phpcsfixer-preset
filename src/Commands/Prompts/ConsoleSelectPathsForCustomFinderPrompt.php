@@ -84,7 +84,7 @@ class ConsoleSelectPathsForCustomFinderPrompt
 
         return Collection::create($items)
             ->exclude($excludeItems)
-            ->filter(function ($item) {
+            ->filter(function($item) {
                 return !Str::startsWith($item, '.');
             })
             ->values()

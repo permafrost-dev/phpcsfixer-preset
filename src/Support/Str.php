@@ -72,7 +72,7 @@ class Str
         if ($offset === false) {
             $offset = 0;
         } else {
-            ++$offset;
+            $offset++;
         }
 
         return substr($value, $offset);

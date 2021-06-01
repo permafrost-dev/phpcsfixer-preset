@@ -17,7 +17,6 @@ class DefaultRuleset extends BaseRuleset implements RuleSet
     public function rules(): array
     {
         return array_merge([
-            'psr0' => false,
             '@PSR2' => true,
             '@Symfony' => true,
             'array_syntax' => [
@@ -44,16 +43,15 @@ class DefaultRuleset extends BaseRuleset implements RuleSet
                 'closure_function_spacing' => 'none',
             ],
             'increment_style' => [
-                'style' => 'post'
+                'style' => 'post',
             ],
             'indentation_type' => true,
             'linebreak_after_opening_tag' => true,
             'line_ending' => true,
-            'lowercase_constants' => false,
             'lowercase_keywords' => true,
-            'method_argument_space' => [
-                'ensure_fully_multiline' => true,
-            ],
+            //'method_argument_space' => [
+            //    'ensure_fully_multiline' => true,
+            //],
             'no_break_comment' => false,
             'no_closing_tag' => true,
             'no_spaces_after_function_name' => true,
@@ -64,7 +62,7 @@ class DefaultRuleset extends BaseRuleset implements RuleSet
             'no_unused_imports' => true,
             'not_operator_with_successor_space' => false,
             'ordered_imports' => [
-                'sortAlgorithm' => 'alpha',
+                'sort_algorithm' => 'alpha',
             ],
             'phpdoc_align' => [
                 'align' => 'left',
