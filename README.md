@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://static.permafrost.dev/images/permafrost-logo-02.png" alt="Permafrost Dev" height="150" style="block">
+<img src="https://static.permafrost.dev/images/phpcsfixer-preset/phpcsfixer-preset-logo-03.png" alt="Permafrost Dev" height="200" style="block">
 <br><br>
 <span style="font-size:2.3rem">phpcsfixer-preset</span>
 </p>
