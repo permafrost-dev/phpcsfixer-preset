@@ -6,11 +6,11 @@
     "require": {
         "ext-json": "*",
         "php": "^7.3||^8.0",
-        "symfony/console": "^5.2"
+        "symfony/console": "^5.2|^6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
