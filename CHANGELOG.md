@@ -4,6 +4,10 @@ All notable changes to `permafrost-dev/phpcsfixer-preset` will be documented in 
 
 ---
 
+## 2.0.1 2022-Feb-11
+
+- add support for Symfony v6
+
 ## 2.0.0 2021-06-01
 
 - add support for php-cs-fixer v3
