@@ -12,11 +12,11 @@
 
 ---
 
-This package allows you to use the same [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) formatting rules across all of your projects without copy-and-pasting configuration files. There's also a quick setup script to automatically generate a configuration file for your project structure and preferred formatting preset.
+This package allows sharing identical [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) formatting rules across all of your projects without copy-and-pasting configuration files. There is also a quick setup script to automatically generate a configuration file for the project structure and preferred formatting preset.
 
 `permafrost-dev/phpcsfixer-preset` provides several opinionated `php-cs-fixer` configuration choices as well as pre-configured `Finder` classes for common project formats and use cases.
 
-Supported PHP versions: `7.3`, `7.4`, and `8.0`.
+Supported PHP versions are `7.3`, `7.4`, `8.0`, and `8.1`.
 
 The original concept for this package came from this excellent article on [sharing php-cs-fixer configurations across projects](https://laravel-news.com/sharing-php-cs-fixer-rules-across-projects-and-teams)  written by [Tim Mcdonald](https://timacdonald.me/).
 
@@ -55,7 +55,7 @@ Standard `PhpCsFixer\Finder` options can be chained onto the custom `Finder` cla
     // ...
 ```
 
-You can also use the standard `PhpCsFixer\Finder` class along with any of the Rulesets:
+The standard `PhpCsFixer\Finder` class can be used along with any of the Rulesets:
 
 ```php
 <?php
@@ -83,7 +83,7 @@ return SharedConfig::create($finder, new SpatieRuleset());
 
 ## Overriding Ruleset Rules
 
-When creating a `Ruleset` class, you may pass an array of `php-cs-fixer` rules that will add or override the ruleset's default rules.
+When creating a `Ruleset` class, you may pass an array of `php-cs-fixer` rules that add or override the Ruleset's default rules.
 
 ```php
 <?php
@@ -179,13 +179,13 @@ vendor/bin/pf-create-cs-config custom --outfile=.my-config
 
 **Note on the `custom` type:**
 
-The `custom` type will prompt you to enter the directory names you'd like `php-cs-fixer` to include and exclude.  The generated configuration file implements the `PhpCsFixer\Finder` class instead of one of the preconfigured finder classes.
+The `custom` type will prompt you to enter the directory names you would like `php-cs-fixer` to include and exclude. The generated configuration file implements the `PhpCsFixer\Finder` class instead of one of the preconfigured finder classes.
 
 ---
 
 ## Automatic Formatting
 
-If you would like to automatically apply `php-cs-fixer` formatting using Github Actions, see the [automation with Github Actions](docs/automation.md) documentation.
+To apply `php-cs-fixer` formatting using Github Actions automatically, see the [automation with Github Actions](docs/automation.md) documentation.
 
 ---
 
@@ -194,7 +194,7 @@ If you would like to automatically apply `php-cs-fixer` formatting using Github 
 #### `BasicProjectFinder`
 
 - ignores VCS files
-- ignores dot files
+- ignores dotfiles
 - includes PHP files
 - excludes `vendor/` directory
 
@@ -223,8 +223,7 @@ If you would like to automatically apply `php-cs-fixer` formatting using Github 
 
 #### `Default`
 
-- The default opinionated Ruleset provided by this package.
-
+- Default opinionated Ruleset provided by this package.
 - [View Rules](docs/rulesets/default_rules.md)
 
 #### `LaravelShift`
@@ -292,17 +291,17 @@ class MyCustomRulesRuleset implements RuleSet
 
 If adding a new Ruleset to this package, the Ruleset must be registered in `\Permafrost\PhpCsFixerRules\Commands\GenerateConfigCommand@rulesets()` to allow the quick setup command to use it.
 
-If creating a new Ruleset package for your own use, follow the above example but use a namespace unique to your package.
+When creating a new Ruleset package, follow the above example but use a namespace unique to the package.
 
 ---
 
-## Formatting Your Code
+## Code Formatting
 
 To format all files specified in the configuration, run:
 
 `vendor/bin/php-cs-fixer fix`
 
-To see which files will be formatted without making any changes, run:
+To list the files to be processed without making any changes:
 
 `vendor/bin/php-cs-fixer fix  --dry-run`
 
@@ -310,7 +309,7 @@ To see which files will be formatted without making any changes, run:
 
 ## Testing
 
-This package uses PHPUnit for unit tests.  To run the test suite, run:
+This package uses PHPUnit for unit tests. To run the test suite, run:
 
 `./vendor/bin/phpunit`
 
@@ -324,7 +323,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributions
 
-Contributions of `Rulesets`, `Finders`, bugfixes, suggestions, or improvements are welcomed. Please open an appropriately labeled issue or pull request for any of these.
+Contributions of `Rulesets`, `Finders`, bug fixes, suggestions, or improvements are welcome. Please open an appropriately labeled issue or pull request for any of these.
 
 ---
 
