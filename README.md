@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/packagist/v/permafrost-dev/phpcsfixer-preset" alt="version"/> <img src="https://img.shields.io/packagist/l/permafrost-dev/phpcsfixer-preset" alt="license"/> <img src="https://img.shields.io/packagist/dt/permafrost-dev/phpcsfixer-preset" alt="downloads"/> <img src="https://img.shields.io/github/workflow/status/permafrost-dev/phpcsfixer-preset/Run%20Tests/main" alt="Run Tests"/> <img src="https://coveralls.io/repos/github/permafrost-dev/phpcsfixer-preset/badge.svg?branch=main" alt="Coverage Status" />
+<img src="https://img.shields.io/packagist/v/permafrost-dev/phpcsfixer-preset" alt="version"/> <img src="https://img.shields.io/packagist/l/permafrost-dev/phpcsfixer-preset" alt="license"/> <img src="https://img.shields.io/packagist/dt/permafrost-dev/phpcsfixer-preset" alt="downloads"/> <img src="https://img.shields.io/github/actions/workflow/status/permafrost-dev/phpcsfixer-preset/run-tests.yml?branch=main" alt="Run Tests"/> <img  src="https://coveralls.io/repos/github/permafrost-dev/phpcsfixer-preset/badge.svg?branch=main" alt="Coverage Status" />
 </p>
 
 <br>
