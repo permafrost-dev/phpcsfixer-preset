@@ -16,7 +16,7 @@ This package allows sharing identical [php-cs-fixer](https://github.com/FriendsO
 
 `permafrost-dev/phpcsfixer-preset` provides several opinionated `php-cs-fixer` configuration choices as well as pre-configured `Finder` classes for common project formats and use cases.
 
-Supported PHP versions are `7.3`, `7.4`, `8.0`, and `8.1`.
+Supported PHP versions are `7.3`, `7.4`, `8.0`, `8.1`, and `8.2`.
 
 The original concept for this package came from this excellent article on [sharing php-cs-fixer configurations across projects](https://laravel-news.com/sharing-php-cs-fixer-rules-across-projects-and-teams)  written by [Tim Mcdonald](https://timacdonald.me/).
 
